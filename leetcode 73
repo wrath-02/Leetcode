@@ -1,0 +1,104 @@
+class Solution {
+    public void setZeroes(int[][] arr) {
+        int m=arr.length,n=arr[0].length;
+        
+        //Method1:using helper array(Bad Complexity)
+
+        // int [][] helper=new int[m][n];
+        // for(int i=0;i<m;i++){
+        //     for(int j=0;j<n;j++){
+        //         helper[i][j]=arr[i][j];
+        //     }
+        // }
+        // for(int i=0;i<m;i++){
+        //     for(int j=0;j<n;j++){
+        //         if(helper[i][j]==0){
+        //             for(int b=0;b<m;b++){
+        //                 arr[b][j]=0;
+        //             }
+        //              for(int a=0;a<n;a++){
+        //                 arr[i][a]=0;
+        //             }
+        //         }
+        //     }
+        // }
+
+        //mETHOD2:OPTIMISED THAN PREVIOUS METHOD
+        // boolean []row=new boolean[m];
+        // boolean []col=new boolean[n]; //Default value will be false
+        // //marking the 0's col and rows
+        // for(int i=0;i<m;i++){
+        //     for(int j=0;j<n;j++){
+        //         if(arr[i][j]==0){
+        //             row[i]=true;
+        //             col[j]=true;
+        //         }
+        //     }
+        // }
+        // for(int i=0;i<m;i++){
+        //     for(int j=0;j<n;j++){
+        //         if(row[i]==true ||col[j]==true){
+        //             arr[i][j]=0;
+        //         }
+        //     }
+        // }
+
+        //Method3:Constant Space(Best Solution)
+
+        boolean zeroRow=false;
+        boolean zeroCol=false;
+
+        //Check the zero Row
+        for(int j=0;j<n;j++){
+            if(arr[0][j]==0){
+                zeroRow=true;
+                break;
+            }
+        }
+        //Check the zero Column
+        for(int i=0;i<m;i++){
+            if(arr[i][0]==0){
+                zeroCol=true;
+                break;
+            }
+        }
+        //Traverse the submatrix without zero row and col
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                if(arr[i][j]==0){
+                    arr[0][j]=0;
+                    arr[i][0]=0;
+                }
+            }
+        }
+        //traverse in 0 row
+        for(int j=1;j<n;j++){
+            if(arr[0][j]==0){
+                for(int i=1;i<m;i++){
+                    arr[i][j]=0; //Set the jth col to 0
+                }
+            }
+        }
+        //traverse in 0 col
+        for(int i=1;i<m;i++){
+            if(arr[i][0]==0){
+                for(int j=1;j<n;j++){
+                    arr[i][j]=0;//Set the ith row 0
+                }
+            }
+        }
+        if(zeroRow==true){//Set the zero row 0
+            for(int j=0;j<n;j++){
+                arr[0][j]=0;
+            }
+        }
+        if(zeroCol==true){//Set the zero row 0
+            for(int i=0;i<m;i++){
+                arr[i][0]=0;
+            }
+        }
+
+
+        
+    }
+}
