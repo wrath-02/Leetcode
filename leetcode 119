@@ -1,0 +1,21 @@
+class Solution {
+    public List<Integer> getRow(int n) {
+        List<List<Integer>> ans=new ArrayList<>();
+		//Inserting only one in the pascal triangle
+		for(int i=0;i<34;i++) {
+			List<Integer> l=new ArrayList<>();
+			for(int j=0;j<=i;j++) {
+				l.add(1);
+			}
+			ans.add(l);
+		}
+		//Adding or applying rule of pascal triangle
+		for(int i=2;i<34;i++) {
+			for(int j=1;j<=i-1;j++) {
+				ans.get(i).set(j,ans.get(i-1).get(j)+ans.get(i-1).get(j-1));
+			}
+		}
+        return ans.get(n);
+        
+    }
+}
