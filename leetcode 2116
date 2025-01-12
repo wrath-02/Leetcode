@@ -1,0 +1,30 @@
+class Solution {
+    public boolean canBeValid(String s, String locked) {
+        int n = s.length();
+        if (n % 2 != 0) return false; // Odd-length strings can't be valid.
+
+        // Left to right pass
+        int open = 0; // Tracks potential openings
+        for (int i = 0; i < n; i++) {
+            if (locked.charAt(i) == '0' || s.charAt(i) == '(') {
+                open++;
+            } else {
+                open--;
+            }
+            if (open < 0) return false; // Too many closing parentheses
+        }
+
+        // Right to left pass
+        int close = 0; // Tracks potential closings
+        for (int i = n - 1; i >= 0; i--) {
+            if (locked.charAt(i) == '0' || s.charAt(i) == ')') {
+                close++;
+            } else {
+                close--;
+            }
+            if (close < 0) return false; // Too many opening parentheses
+        }
+
+        return true;
+    }
+}
