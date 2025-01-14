@@ -1,0 +1,29 @@
+class Solution {
+    public int[] findThePrefixCommonArray(int[] A, int[] B) {
+        int n = A.length;
+        int[] ans = new int[n];
+        boolean[] seen = new boolean[n + 1]; // Tracks numbers already encountered in A and B
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            // Check A[i]
+            if (seen[A[i]]) {
+                count++;
+            } else {
+                seen[A[i]] = true;
+            }
+
+            // Check B[i]
+            if (seen[B[i]]) {
+                count++;
+            } else {
+                seen[B[i]] = true;
+            }
+
+            // Update the prefix common count
+            ans[i] = count;
+        }
+
+        return ans;
+    }
+}
