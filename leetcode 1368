@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Solution {
+    public int minCost(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        
+        // Directions corresponding to grid values (1: right, 2: left, 3: down, 4: up)
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        
+        // Cost array to track minimum cost to reach each cell
+        int[][] cost = new int[m][n];
+        for (int[] row : cost) {
+            Arrays.fill(row, Integer.MAX_VALUE);  // Initialize all costs to infinity
+        }
+        cost[0][0] = 0;  // Starting point, no cost
+        
+        // Min-heap for BFS with priority (cost, x, y)
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        pq.offer(new int[]{0, 0, 0});  // Start with (cost, x, y)
+        
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int c = curr[0], x = curr[1], y = curr[2];
+            
+            // If we reach the bottom-right corner, return the cost
+            if (x == m - 1 && y == n - 1) {
+                return c;
+            }
+            
+            // Try all possible directions
+            for (int i = 0; i < 4; i++) {
+                int nx = x + directions[i][0], ny = y + directions[i][1];
+                
+                // Check if the new position is within bounds
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int newCost = c + (grid[x][y] != i + 1 ? 1 : 0);
+                    if (newCost < cost[nx][ny]) {
+                        cost[nx][ny] = newCost;
+                        pq.offer(new int[]{newCost, nx, ny});
+                    }
+                }
+            }
+        }
+        
+        // Return the minimum cost to reach (m-1, n-1)
+        return cost[m - 1][n - 1];
+    }
+}
