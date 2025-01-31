@@ -1,0 +1,26 @@
+class Solution {
+    public int maxScore(String s) {
+        int onesCount = 0;  // Total count of '1's in the string
+        int zerosCount = 0; // Count of '0's in the left partition
+        int maxScore = Integer.MIN_VALUE;
+        
+        // Count the total number of ones in the string
+        for (char ch : s.toCharArray()) {
+            if (ch == '1') {
+                onesCount++;
+            }
+        }
+
+        // Traverse the string and calculate score at each valid split point
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) == '0') {
+                zerosCount++;
+            } else {
+                onesCount--;
+            }
+            maxScore = Math.max(maxScore, zerosCount + onesCount);
+        }
+
+        return maxScore;
+    }
+}
