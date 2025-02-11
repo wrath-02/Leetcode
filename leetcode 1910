@@ -1,0 +1,30 @@
+class Solution {
+    public String removeOccurrences(String s, String part) {
+        while (s.contains(part)) {
+            s = s.replaceFirst(part, ""); // Remove the first occurrence of part
+        }
+        return s;
+    }
+}
+
+
+
+/***** OR *****/
+
+
+class Solution {
+    public String removeOccurrences(String s, String part) {
+        StringBuilder sb = new StringBuilder();
+        int partLength = part.length();
+
+        for (char ch : s.toCharArray()) {
+            sb.append(ch); // Append character to "stack"
+
+            // Check if the last few characters match "part"
+            if (sb.length() >= partLength && sb.substring(sb.length() - partLength).equals(part)) {
+                sb.setLength(sb.length() - partLength); // Remove "part"
+            }
+        }
+        return sb.toString();
+    }
+}
