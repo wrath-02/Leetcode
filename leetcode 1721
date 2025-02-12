@@ -1,0 +1,33 @@
+//Swapping nodes in a linked list
+//You are given the head of a linked list, and an integer k.
+//Return the head of the linked list after swapping the values of the kth node from the beginning and the kth node from the end (the list is 1-indexed).
+
+
+class Solution {
+    public void swapvalues(ListNode a, ListNode b){
+        int temp=a.val;
+        a.val=b.val;
+        b.val=temp;
+    }
+    public ListNode swapNodes(ListNode head, int k) {
+        ListNode fast =head;
+        ListNode slow =head;
+        ListNode temp =head;
+        for(int i=0;i<k;i++){
+            temp=fast;
+            fast=fast.next;
+        }
+        if(fast==null){
+            swapvalues(head,temp);
+            return head;
+        }
+        
+        while(fast!=null){
+            fast=fast.next;
+            slow=slow.next;
+        }
+        
+        swapvalues(slow,temp);
+        return head;
+    }
+}
