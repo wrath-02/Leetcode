@@ -1,0 +1,38 @@
+//intersection of two linked list
+//Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.
+
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode tempA =headA;
+        ListNode tempB =headB;
+        int sizeA = 0, sizeB = 0, sizeDiff = 0;
+        while(tempA!=null){
+            sizeA++;
+            tempA=tempA.next;
+        }
+        while(tempB!=null){
+            sizeB++;
+            tempB=tempB.next;
+        }
+        tempA =headA;
+        tempB =headB;
+        if(sizeA>sizeB){
+            sizeDiff=sizeA-sizeB;
+            for(int i=0;i<sizeDiff;i++){
+                tempA=tempA.next;
+            }
+        }
+        else{
+            sizeDiff=sizeB-sizeA;
+            for(int i=0;i<sizeDiff;i++){
+                tempB=tempB.next;
+            }
+        }
+         while(tempA!=tempB){
+            tempA=tempA.next;
+            tempB=tempB.next;
+        }
+        return tempA;
+    }
+}
