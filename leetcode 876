@@ -1,0 +1,48 @@
+//Middle of Linked List
+/* Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node.
+*/
+
+//Method1:
+class Solution {
+    public int sizell(ListNode head){
+        int size = 0;
+        ListNode temp = head;
+        while(temp!=null){
+            size++;
+            temp=temp.next;
+        }
+        return size;
+    }
+    public ListNode middleNode(ListNode head) {
+        int s1 = sizell(head);
+        if(s1%2==0) {
+            int s =(s1/2)+1;
+            for(int i =1;i<s;i++){
+                head=head.next;
+            }
+        } 
+        else{
+            int mid=s1/2;
+            for(int i =1;i<=mid;i++){
+                head=head.next;
+            }
+
+        }
+        return head;
+    }
+}
+
+//Method 2
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next!=null ){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        return slow;
+    }
+}
