@@ -1,0 +1,35 @@
+//Partition list
+/*
+Given the head of a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+You should preserve the original relative order of the nodes in each of the two partitions.
+*/
+
+
+
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        if(head==null || head.next==null) return head;
+// creating 2 dummy nodes
+        ListNode dummy1= new ListNode(-1);
+        ListNode dummy2= new ListNode(-1);
+        ListNode temp1 = dummy1;
+        ListNode temp2 = dummy2;
+        ListNode temp = head;
+        ListNode a =dummy1;
+        ListNode b =dummy2;
+        while(temp!=null){
+            if(temp.val < x){
+                temp1.next=temp;
+                temp1=temp;
+            }
+            else{
+                temp2.next=temp;
+                temp2=temp;
+            }
+            temp=temp.next;
+        }
+        temp1.next=b.next;
+        temp2.next=null;
+        return a.next;
+    }
+}
