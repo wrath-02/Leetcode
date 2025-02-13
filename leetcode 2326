@@ -1,0 +1,51 @@
+//Spiral Matrix IV
+/*You are given two integers m and n, which represent the dimensions of a matrix.
+You are also given the head of a linked list of integers.
+Generate an m x n matrix that contains the integers in the linked list presented in spiral order (clockwise), starting from the top-left of the matrix. If there are remaining empty spaces, fill them with -1.
+Return the generated matrix.
+*/
+
+
+class Solution {
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+        int[][] nums = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                nums[i][j] = -1;
+            }
+        }
+        ListNode temp = head;
+        int minrow = 0, mincol = 0, maxrow = m - 1, maxcol = n - 1;
+        while(minrow <= maxrow && mincol <= maxcol && temp != null) {
+            // Left to Right
+            for (int j = mincol; j <= maxcol && temp != null; j++) {
+                nums[minrow][j] = temp.val;
+                temp = temp.next;
+            }
+            minrow++;
+
+            // Top to Bottom
+            for (int i = minrow; i <= maxrow && temp != null; i++) {
+                nums[i][maxcol] = temp.val;
+                temp = temp.next;
+            }
+            maxcol--;
+
+            // Right to Left
+            for (int j = maxcol; j >= mincol && temp != null; j--) {
+                nums[maxrow][j] = temp.val;
+                temp = temp.next;
+            }
+            maxrow--;
+
+            // Bottom to Top
+            for (int i = maxrow; i >= minrow && temp != null; i--) {
+                nums[i][mincol] = temp.val;
+                temp = temp.next;
+            }
+            mincol++;
+        }
+
+        return nums;
+    }
+}
