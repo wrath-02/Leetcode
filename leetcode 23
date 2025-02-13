@@ -1,0 +1,54 @@
+//Merge K sorted List
+//You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+//Merge all the linked-lists into one sorted linked-list and return it.
+
+
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(-1);
+        ListNode t1 = list1;
+        ListNode t2 = list2;
+        ListNode t = dummy;
+        
+        while (t1 != null && t2 != null) {
+            if (t1.val <= t2.val) {
+                t.next = t1;
+                t1 = t1.next;
+            } else {
+                t.next = t2;
+                t2 = t2.next;
+            }
+            t = t.next;
+        }
+        
+        t.next = (t1 != null) ? t1 : t2;
+        return dummy.next;
+    }
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null;
+
+        ArrayList<ListNode> arr = new ArrayList<>();
+        
+        // Convert array to ArrayList
+        for (ListNode list : lists) {
+            if (list != null) {
+                arr.add(list);
+            }
+        }
+
+        return mergeKListsBinary(arr, 0, arr.size() - 1);
+    }
+
+    public ListNode mergeKListsBinary(ArrayList<ListNode> lists, int left, int right) {
+        if (left > right) return null; 
+        if (left == right) return lists.get(left); 
+        
+        int mid = left + (right - left) / 2;
+        ListNode leftMerged = mergeKListsBinary(lists, left, mid);
+        ListNode rightMerged = mergeKListsBinary(lists, mid + 1, right);
+
+        return mergeTwoLists(leftMerged, rightMerged);
+    }
+}
