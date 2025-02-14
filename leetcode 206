@@ -5,14 +5,28 @@
 
 class Solution {
     public ListNode reverseList(ListNode head) {
-        ListNode prev=null;
-        ListNode curr =head;
-        while(curr!=null){
-            ListNode temp =curr.next;
-            curr.next=prev;
-            prev=curr;
-            curr=temp;
-        }
-        return prev;
+        
+        // Method 1: iterative Approach 
+        
+        // ListNode prev=null;
+        // ListNode curr =head;
+        // while(curr!=null){
+        //     ListNode Next =curr.next;
+        //     curr.next=prev;
+        //     prev=curr;
+        //     curr=Next;
+        // }
+        // return prev;
+
+
+
+        //Method 2: Recursive Approach
+
+        if(head==null || head.next==null) return head;
+        ListNode temp =head.next;
+        ListNode newHead=reverseList(temp);
+        temp.next=head;
+        head.next=null;
+        return newHead;
     }
 }
