@@ -1,0 +1,79 @@
+//Palindrome Linked List
+//Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+
+//method 1: brute force (using arrayList)
+//method 2 : create deep copy of linked list and reverse it then check;
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev=null;
+        ListNode curr =head;
+        while(curr!=null){
+            ListNode Next =curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=Next;
+        }
+        return prev;
+    }
+
+    public boolean isPalindrome(ListNode head) {
+        ListNode newHead =new ListNode(head.val);
+        ListNode t1 =head.next;
+        ListNode t2 =newHead;
+        while(t1!=null){
+            ListNode temp=new ListNode(t1.val);
+            t2.next=temp;
+            t1=t1.next;
+            t2=t2.next;
+        }
+
+        newHead = reverseList(newHead);
+        t1= head;
+        t2=newHead;
+        while(t1!=null){
+            if(t1.val!=t2.val) return false;
+            t1=t1.next;
+            t2=t2.next;
+
+        }
+        return true;
+    }
+}
+
+
+//method 3: reverse 2nd half of list
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev=null;
+        ListNode curr =head;
+        while(curr!=null){
+            ListNode Next =curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=Next;
+        }
+        return prev;
+    }
+
+    public boolean isPalindrome(ListNode head) {
+        if(head==null || head.next==null) return true;
+        ListNode temp1 =head;
+        ListNode slow =head;
+        ListNode fast =head;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        ListNode newHead = reverseList(slow);
+        ListNode temp2 = newHead;
+        while(temp2!=null){
+            if(temp1.val!=temp2.val) return false;
+            temp1=temp1.next;
+            temp2=temp2.next;
+        }
+        return true;
+        
+    }
+}
