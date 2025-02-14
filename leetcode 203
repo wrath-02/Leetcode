@@ -1,0 +1,24 @@
+//Remove Linked List Element
+//Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if(head==null) return head;
+        ListNode dummy = new ListNode(-1);
+        ListNode a =dummy;
+        dummy.next=head;
+        ListNode temp=head;
+        while(temp!=null  ){
+            if(temp.val==val){
+                a.next=temp.next;
+            }
+            else{
+                a=temp;
+            }
+            temp=temp.next;
+        }
+        return dummy.next;
+        
+    }
+}
