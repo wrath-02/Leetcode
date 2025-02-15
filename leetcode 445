@@ -1,0 +1,54 @@
+//Add Two Numbers II
+//You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+//You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev=null;
+        ListNode curr =head;
+        while(curr!=null){
+            ListNode Next =curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=Next;
+        }
+        return prev;
+    }    
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        
+        l1=reverseList(l1);
+        l2=reverseList(l2);
+
+        ListNode dummy = new ListNode(-1);
+        ListNode head= dummy;
+        ListNode temp = dummy;
+        int carry =0;
+        while(l1!=null || l2!=null){
+            int val1=0, val2 = 0;
+
+            if(l1!=null) val1=l1.val;
+            if(l2!=null) val2=l2.val;
+
+            int num = (val1+val2+carry);
+            ListNode newOne = new ListNode(num%10);
+            temp.next = newOne;
+            temp = temp.next;
+            if(num>9) carry=1;
+            else carry=0;
+            if(l1!=null)l1=l1.next;
+            if(l2!=null)l2=l2.next;
+        }
+        if(carry==1){
+            ListNode newOne = new ListNode(1);
+            temp.next = newOne;
+            temp = temp.next;
+        }
+
+        head=dummy.next;
+        head=reverseList(head);
+       
+        return head ;
+    }
+}
