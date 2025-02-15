@@ -1,0 +1,51 @@
+//Punishment Number
+//Given a positive integer n, return the punishment number of n.
+//The punishment number of n is defined as the sum of the squares of all integers i such that:
+//1 <= i <= n
+//The decimal representation of i * i can be partitioned into contiguous substrings such that the sum of the integer values of these substrings equals i.
+
+
+
+// Recursive Partitioning:
+// Instead of directly using integer division, I used a string-based approach.
+// It tries all possible partitions by adding digits from index to i into a running sum.
+// Base Case:
+// When the index reaches the end of the string, it checks if the currentSum matches the original number.
+// Main Loop:
+// Iterates through 1 to n, computes the square, and calls the canPartition() function.
+// Adds the square to the final result if the partition is valid.
+class Solution {
+
+    public boolean canPartition(String numStr, int target, int index, int currentSum) {
+        // Base case: if we have used all digits
+        if (index == numStr.length()) {
+            return currentSum == target;
+        }
+
+        int sum = 0;
+        // Try all possible partitions
+        for (int i = index; i < numStr.length(); i++) {
+            sum = sum * 10 + (numStr.charAt(i) - '0');
+            if (canPartition(numStr, target, i + 1, currentSum + sum)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public int punishmentNumber(int n) {
+        int punishmentNum = 0;
+
+        for (int currentNum = 1; currentNum <= n; currentNum++) {
+            int squareNum = currentNum * currentNum;
+            String numStr = String.valueOf(squareNum);
+
+            if (canPartition(numStr, currentNum, 0, 0)) {
+                punishmentNum += squareNum;
+            }
+        }
+
+        return punishmentNum;
+    }
+}
