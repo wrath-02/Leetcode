@@ -1,0 +1,28 @@
+//Merge nodes in between Zeroes
+//You are given the head of a linked list, which contains a series of integers separated by 0's. The beginning and end of the linked list will have Node.val == 0.
+//For every two consecutive 0's, merge all the nodes lying in between them into a single node whose value is the sum of all the merged nodes. The modified list should not contain any 0's.
+//Return the head of the modified linked list.
+
+
+public class Solution {
+
+    public ListNode mergeNodes(ListNode head) {
+        ListNode temp = head.next;  // Pointer to start adding values
+        ListNode current = temp;    // Pointer to store sums
+
+        while (current != null) {
+            int sum = 0;
+            while (current.val != 0) {  // Add values until you reach 0
+                sum += current.val;
+                current = current.next;
+            }
+
+            temp.val = sum;  // Store the sum in the current position
+            current = current.next;  // Move to the next block after 0
+            temp.next = current;  // Link to the next segment
+            temp = temp.next;     // Move temp forward
+        }
+
+        return head.next;  // Return the merged list without the first 0
+    }
+}
