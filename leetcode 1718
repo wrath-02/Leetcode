@@ -1,0 +1,51 @@
+//Construct the Lexicographically Largest Valid Sequence
+
+
+//Given an integer n, find a sequence that satisfies all of the following:
+//The integer 1 occurs once in the sequence.
+//Each integer between 2 and n occurs twice in the sequence.
+//For every integer i between 2 and n, the distance between the two occurrences of i is exactly i.
+//The distance between two numbers on the sequence, a[i] and a[j], is the absolute difference of their indices, |j - i|.\
+//Return the lexicographically largest sequence. It is guaranteed that under the given constraints, there is always a solution.
+//A sequence a is lexicographically larger than a sequence b (of the same length) if in the first position where a and b differ, sequence a has a number greater than the corresponding number in b. For example, [0,1,9,0] is lexicographically larger than [0,1,5,6] because the first position they differ is at the third number, and 9 is greater than 5.
+
+
+class Solution {
+    private int[] res;
+
+    public int[] constructDistancedSequence(int n) {
+        res = null;
+        int[] arr = new int[2 * n - 1];
+        boolean[] used = new boolean[n + 1];
+        backtrack(n, 0, arr, used);
+        return res;
+    }
+
+    private boolean backtrack(int n, int l, int[] arr, boolean[] used) {
+        if (l == arr.length) {
+            res = arr.clone();
+            return true;
+        }
+
+        if (arr[l] != 0) return backtrack(n, l + 1, arr, used); // Skip occupied
+
+        for (int num = n; num >= 1; num--) {
+            if (used[num]) continue;
+
+            int r = (num == 1) ? l : l + num;
+            if (r < arr.length && arr[r] == 0) {
+                arr[l] = num;
+                arr[r] = num;
+                used[num] = true;
+
+                if (backtrack(n, l + 1, arr, used)) return true;
+
+                arr[l] = 0;
+                arr[r] = 0;
+                used[num] = false;
+            }
+        }
+
+        return false;
+    }
+}
