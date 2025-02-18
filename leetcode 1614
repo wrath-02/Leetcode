@@ -1,0 +1,20 @@
+//Maximum Nesting Depth of Parenthesis
+//Given a valid parentheses string s, return the nesting depth of s. The nesting depth is the maximum number of nested parentheses.
+
+
+
+class Solution {
+    public int maxDepth(String s) {
+        int count = 0, maxcount = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(') {
+                count++;
+                maxcount = Math.max(maxcount, count);
+            } else if (ch == ')') {
+                count--;
+            }
+        }
+        return maxcount;
+    }
+}
