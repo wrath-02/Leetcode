@@ -1,0 +1,36 @@
+//The k-th Lexicographical String of All Happy Strings of Length n
+//A happy string is a string that:
+//consists only of letters of the set ['a', 'b', 'c'].
+//s[i] != s[i + 1] for all values of i from 1 to s.length - 1 (string is 1-indexed).
+//For example, strings "abc", "ac", "b" and "abcbabcbcb" are all happy strings and strings "aa", "baa" and "ababbc" are not happy strings.
+//Given two integers n and k, consider a list of all happy strings of length n sorted in lexicographical order.
+//Return the kth string of this list or return an empty string if there are less than k happy strings of length n.
+
+
+
+class Solution {
+    public int count = 0;  // Counter to track the k-th happy string
+    public String result = "";  // Store the k-th happy string
+
+    public void generateHappyStrings(int n, String current, char lastChar, int k) {
+        if (current.length() == n) {
+            count++;  // Increment count since we found a happy string
+            if (count == k) {
+                result = current;  // Store result when count matches k
+            }
+            return;
+        }
+        for (char ch : new char[]{'a', 'b', 'c'}) {
+            if (ch != lastChar) {  // Ensure no consecutive characters are the same
+                generateHappyStrings(n, current + ch, ch, k);
+                if (!result.isEmpty()) return; // Stop recursion early if found
+            }
+        }
+    }
+    public String getHappyString(int n, int k) {
+        count = 0;
+        result = "";
+        generateHappyStrings(n, "", '\0', k);
+        return result;  // Return the k-th happy string or "" if not found
+    }
+}
