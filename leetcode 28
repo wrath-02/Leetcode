@@ -1,0 +1,25 @@
+//find the index of first occurence in a string
+//Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int i = 0, j = 0;
+
+        if (needle.length() > haystack.length()) return -1;
+
+        while (i < haystack.length()) {
+            if (haystack.charAt(i) == needle.charAt(j)) {
+                j++;
+                if (j == needle.length()) {
+                    return i - j + 1; // Match found, return start index
+                }
+            } else {
+                i -= j; // Reset i to the next start position
+                j = 0;  // Reset j to start searching needle from the beginning
+            }
+            i++;
+        }
+        return -1; // No match found
+    }
+}
