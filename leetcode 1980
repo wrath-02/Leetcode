@@ -1,0 +1,31 @@
+//Find unique binary String
+//Given an array of strings nums containing n unique binary strings each of length n, return a binary string of length n that does not appear in nums. If there are multiple answers, you may return any of them.
+
+
+
+class Solution {
+    public void generatestring(char[] set, int n, ArrayList<String> ans, String s) {
+        if (n == 0) {
+            ans.add(s);
+            return; 
+        }
+        for (int i = 0; i < 2; i++) {
+            String newstring = s + set[i];
+            generatestring(set, n - 1, ans, newstring);
+        }
+    }
+
+    public String findDifferentBinaryString(String[] nums) {
+        int n = nums.length;
+        ArrayList<String> ans = new ArrayList<>();
+        char[] set = {'0', '1'};
+        generatestring(set, n, ans, "");
+        HashSet<String> numSet = new HashSet<>(Arrays.asList(nums));
+        for (String candidate : ans) {
+            if (!numSet.contains(candidate)) {
+                return candidate;
+            }
+        }
+        return "";  
+    }
+}
