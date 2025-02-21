@@ -1,0 +1,50 @@
+//Split the array
+//You are given an integer array nums of even length. You have to split the array into two parts nums1 and nums2 such that:
+//nums1.length == nums2.length == nums.length / 2.
+//nums1 should contain distinct elements.
+//nums2 should also contain distinct elements.
+//Return true if it is possible to split the array, and false otherwise.
+
+
+
+
+//Method 1: O(nlogn)
+
+class Solution {
+    public boolean isPossibleToSplit(int[] nums) {
+        int i=0;
+        int j=i+1;
+        Arrays.sort(nums);
+        int count=1;
+        while(i<=j && j<nums.length){
+            if(nums[i]==nums[j]){
+                count++;
+                j++;
+            }
+            else{
+                i=j;
+                j++;
+                count=1;
+                
+            }
+            if(count>2) return false;
+        }
+        return true;
+    }
+}
+
+
+//Method 2: 0(n)
+
+class Solution {
+    public boolean isPossibleToSplit(int[] nums) {
+        int [] freq = new int[101];
+        for(int n : nums) {
+            freq[n]++;
+        }
+        for(int i=0;i<freq.length;i++){
+            if(freq[i]>2) return false;
+        }
+        return true;
+    }
+}
