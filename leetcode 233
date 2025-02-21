@@ -1,0 +1,21 @@
+//Number of Digit One
+//Given an integer n, count the total number of digit 1 appearing in all non-negative integers less than or equal to n.
+
+
+
+class Solution {
+    public int countDigitOne(int n) {
+    int totalCount = 0;
+
+    for (long placeValue = 1; placeValue <= n; placeValue *= 10) {
+        long higherDigits = n / placeValue;  // Digits to the left of the current place
+        long lowerDigits = n % placeValue;   // Digits to the right of the current place
+
+        // Count of '1's contributed by the current place
+        totalCount += (higherDigits + 8) / 10 * placeValue + 
+                      (higherDigits % 10 == 1 ? lowerDigits + 1 : 0);
+    }
+
+    return totalCount;
+    }
+}
