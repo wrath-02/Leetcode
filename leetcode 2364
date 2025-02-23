@@ -1,0 +1,28 @@
+//Count Number of Bad Pairs
+//You are given a 0-indexed integer array nums. A pair of indices (i, j) is a bad pair if i < j and j - i != nums[j] - nums[i].
+//Return the total number of bad pairs in nums.
+
+
+
+
+class Solution {
+    public long countBadPairs(int[] nums) {
+        long n = nums.length;
+        long totalPairs = (n * (n - 1)) / 2; // Total pairs in array
+        
+        HashMap<Integer, Long> freqMap = new HashMap<>();
+        long goodPairs = 0;
+        
+        for (int i = 0; i < n; i++) {
+            int key = nums[i] - i;
+            
+            // Count how many times this key has appeared before (good pairs)
+            goodPairs += freqMap.getOrDefault(key, 0L);
+            
+            // Update the frequency map
+            freqMap.put(key, freqMap.getOrDefault(key, 0L) + 1);
+        }
+        
+        return totalPairs - goodPairs; // Bad pairs = Total pairs - Good pairs
+    }
+}
