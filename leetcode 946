@@ -1,0 +1,25 @@
+//Valid Stack Sequence
+//Given two integer arrays pushed and popped each with distinct values, return true if this could have been the result of a sequence of push and pop operations on an initially empty stack, or false otherwise.
+
+
+
+
+class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        Stack<Integer> st = new Stack<>();
+        int j = 0;
+
+        for (int num : pushed) {
+            st.push(num);  // Push element from pushed[]
+            
+            // Keep popping while the stack top matches popped[j]
+            while (!st.isEmpty() && j < popped.length && st.peek() == popped[j]) {
+                st.pop();
+                j++;  // Move to the next element in popped[]
+            }
+        }
+
+        // If we were able to process all elements in popped[], return true
+        return j == popped.length;
+    }
+}
