@@ -1,0 +1,61 @@
+//Next Greater Node in Linked List
+//You are given the head of a linked list with n nodes.
+//For each node in the list, find the value of the next greater node. That is, for each node, find the value of the first node that is next to it and has a strictly larger value than it.
+//Return an integer array answer where answer[i] is the value of the next greater node of the ith node (1-indexed). If the ith node does not have a next greater node, set answer[i] = 0.
+
+
+
+
+
+class Solution {
+    public int[] nextLargerNodes(ListNode head) {
+        // Step 1: Reverse the linked list
+        ListNode reversedHead = reverseList(head);
+
+        // Step 2: Use stack to find the next greater elements
+        Stack<Integer> st = new Stack<>();
+        ListNode temp = reversedHead;
+        int size = 0;
+        
+        // Step 3: Find the size of reversed list
+        while (temp != null) {
+            size++;
+            temp = temp.next;
+        }
+        
+        int[] ans = new int[size]; // Result array
+        int index = size - 1; // Since we reversed the list, we fill from last index
+
+        temp = reversedHead;
+        while (temp != null) {
+            // Remove elements from stack that are smaller than current node value
+            while (!st.isEmpty() && st.peek() <= temp.val) {
+                st.pop();
+            }
+
+            // If stack is empty, no greater element, else top is next greater
+            ans[index--] = st.isEmpty() ? 0 : st.peek();
+
+            // Push current value into stack
+            st.push(temp.val);
+
+            // Move to next node
+            temp = temp.next;
+        }
+
+        return ans;
+    }
+
+    // Function to reverse linked list
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode nextNode = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+        return prev; // New head of the reversed list
+    }
+}
