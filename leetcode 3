@@ -1,0 +1,28 @@
+//Longest substring without duplicate characters
+//Given a string s, find the length of the longest substring without duplicate characters.
+
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        if (n == 0 || n == 1) return n; // Edge cases
+        Map<Character, Integer> map = new HashMap<>(); // Stores the last index of each character
+        int maxLength = 1;
+        int left = 0;
+        for (int right = 0; right < n; right++) {
+            char currentChar = s.charAt(right);
+            // If character is already in the map, move the left pointer
+            if (map.containsKey(currentChar)) {
+                left = Math.max(left, map.get(currentChar) + 1);
+            }
+            
+            // Store the latest index of the character
+            map.put(currentChar, right);
+            
+            // Update maxLength
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;
+    }
+}
