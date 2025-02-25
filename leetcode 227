@@ -1,0 +1,69 @@
+//Basic Calculator II
+//Given a string s which represents an expression, evaluate this expression and return its value. 
+//The integer division should truncate toward zero.
+//You may assume that the given expression is always valid. All intermediate results will be in the range of [-231, 231 - 1].
+//Note: You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as eval().
+
+
+
+
+class Solution {
+    private static int precedence(char ch) {
+        if (ch == '+' || ch == '-') return 1;
+        if (ch == '*' || ch == '/') return 2;
+        return 0;
+    }
+
+    private static void process(Stack<Integer> num, Stack<Character> op) {
+        int v2 = num.pop();
+        int v1 = num.pop();
+        char operator = op.pop();
+
+        if (operator == '+') num.push(v1 + v2);
+        else if (operator == '-') num.push(v1 - v2);
+        else if (operator == '*') num.push(v1 * v2);
+        else if (operator == '/') num.push(v1 / v2);
+    }
+
+    public int calculate(String s) {
+        Stack<Integer> num = new Stack<>();
+        Stack<Character> op = new Stack<>();
+        int n = s.length();
+        
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+
+            if (Character.isDigit(ch)) {
+                int number = 0;
+                while (i < n && Character.isDigit(s.charAt(i))) {
+                    number = number * 10 + (s.charAt(i) - '0');  // Parse full number
+                    i++;
+                }
+                i--;  // Adjust for extra increment
+                num.push(number);
+            } 
+            else if (ch == '(') {
+                op.push(ch);
+            } 
+            else if (ch == ')') {
+                while (!op.isEmpty() && op.peek() != '(') {
+                    process(num, op);
+                }
+                op.pop();  // Remove '('
+            } 
+            else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                while (!op.isEmpty() && precedence(op.peek()) >= precedence(ch)) {
+                    process(num, op);
+                }
+                op.push(ch);
+            }
+        }
+
+        while (!op.isEmpty()) {
+            process(num, op);
+        }
+        
+        return num.peek();
+    }
+}
+
