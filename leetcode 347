@@ -1,0 +1,42 @@
+//Top K Frequent Element
+//Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+
+
+
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer,Integer> mp =new HashMap<>();
+        //cOUNTING FREQUNCY OF EACH ELEMENT
+
+        for(int i =0;i<nums.length;i++){
+            if(mp.containsKey(nums[i])){
+                mp.put(nums[i],mp.get(nums[i])+1);
+            }
+            else{
+                mp.put(nums[i],1);
+            }
+        }
+
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            int maxFreq = 0;
+            int maxKey = 0;
+
+            // Find the number with the highest frequency
+            for (Map.Entry<Integer, Integer> entry : mp.entrySet()) {
+                if (entry.getValue() > maxFreq) {
+                    maxFreq = entry.getValue();
+                    maxKey = entry.getKey();
+                }
+            }
+
+            // Store the most frequent number in result
+            result[i] = maxKey;
+
+            // Remove it from the map (since it's already added to the result)
+            mp.remove(maxKey);
+        }
+        return result;
+    }
+}
