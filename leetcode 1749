@@ -1,0 +1,28 @@
+//Maximum absolute sum of any subarray
+//You are given an integer array nums. The absolute sum of a subarray [numsl, numsl+1, ..., numsr-1, numsr] is abs(numsl + numsl+1 + ... + numsr-1 + numsr).
+//Return the maximum absolute sum of any (possibly empty) subarray of nums.
+//Note that abs(x) is defined as follows:
+//If x is a negative integer, then abs(x) = -x.
+//If x is a non-negative integer, then abs(x) = x.
+
+
+
+
+
+class Solution {
+    public int maxAbsoluteSum(int[] nums) {
+       int currmin = 0;
+       int currmax= 0 ;
+       int ans = 0;
+       for(int i =0 ;i<nums.length;i++){
+        int curr = nums[i];
+        currmax=Math.max(curr,currmax+curr);
+        currmin=Math.min(curr,currmin+curr);
+        if(currmax<0) currmax = 0;
+        if(currmin>0) currmin=0;
+        ans= Math.max(ans, Math.max(currmax,Math.abs(currmin)));
+
+       } 
+       return ans;
+    }
+}
