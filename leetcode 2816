@@ -1,0 +1,37 @@
+//Double a Number represented as a Linked List
+//You are given the head of a non-empty linked list representing a non-negative integer without leading zeroes.
+//Return the head of the linked list after doubling it.
+
+
+class Solution {
+    public ListNode reverse(ListNode head){
+        ListNode temp = head;
+        ListNode prev =null;
+        while(temp!=null){
+            ListNode next =temp.next;
+            temp.next=prev;
+            prev=temp;
+            temp=next;;
+        }
+        return prev;
+    }
+    public ListNode doubleIt(ListNode head) {
+        if (head == null) return null;
+        ListNode newhead = reverse(head);
+        int carry = 0;
+        ListNode temp = newhead;
+        ListNode prev = null;
+        while (temp != null) {
+            int mul = (temp.val * 2) + carry;
+            temp.val = mul % 10;  
+            carry = mul / 10;     
+            prev = temp;  
+            temp = temp.next;
+        }
+        if(carry > 0){
+            prev.next = new ListNode(carry);
+        }
+        return reverse(newhead);
+
+    }
+}
