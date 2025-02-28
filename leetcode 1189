@@ -1,0 +1,27 @@
+//Maximum Number of Balloons
+//Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible.
+//You can use each character in text at most once. Return the maximum number of instances that can be formed.
+
+
+
+class Solution {
+    public int maxNumberOfBalloons(String text) {
+        // Step 1: Create an array to store character frequencies (only 26 lowercase letters)
+        int[] freq = new int[26];
+
+        // Step 2: Count occurrences of each character in the input string
+        for (char ch : text.toCharArray()) {
+            freq[ch - 'a']++;  // Convert character to array index
+        }
+
+        // Step 3: Extract the relevant counts for letters in "balloon"
+        int countB = freq['b' - 'a'];  // Frequency of 'b'
+        int countA = freq['a' - 'a'];  // Frequency of 'a'
+        int countL = freq['l' - 'a'] / 2;  // 'l' appears twice in "balloon", so divide by 2
+        int countO = freq['o' - 'a'] / 2;  // 'o' also appears twice, so divide by 2
+        int countN = freq['n' - 'a'];  // Frequency of 'n'
+
+        // Step 4: Find the limiting factor (minimum of all counts)
+        return Math.min(countB, Math.min(countA, Math.min(countL, Math.min(countO, countN))));
+    }
+}
