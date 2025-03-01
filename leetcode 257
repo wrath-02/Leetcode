@@ -1,0 +1,27 @@
+//Binary Tree Paths
+//Given the root of a binary tree, return all root-to-leaf paths in any order.
+//A leaf is a node with no children.
+
+
+class Solution {
+    public void helper(TreeNode root, String str, List<String> arr) {
+        if (root == null) return; // Base case
+        str += root.val; // Append the current node's value
+        // If it's a leaf node, add the path to the list
+        if (root.left == null && root.right == null) {
+            arr.add(str);
+            return;
+        }
+        
+        // Otherwise, continue adding "->" and explore left and right subtrees
+        helper(root.left, str + "->", arr);
+        helper(root.right, str + "->", arr);
+    }
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> arr = new ArrayList<>();
+        if (root == null) return arr; // Edge case
+        helper(root, "", arr);
+        return arr;
+    }
+}
