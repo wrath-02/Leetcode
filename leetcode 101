@@ -1,0 +1,57 @@
+//Symmetric Tree
+//Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+
+
+
+//Method1 Direct check;
+class Solution {
+    public boolean helper(TreeNode t1, TreeNode t2) {
+        if (t1 == null && t2 == null) return true;
+        if (t1 == null || t2 == null) return false;
+        if (t1.val != t2.val) return false;
+
+        // Check mirrored structure: left of t1 with right of t2 & right of t1 with left of t2
+        return helper(t1.left, t2.right) && helper(t1.right, t2.left);
+    }
+
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        return helper(root.left, root.right); 
+    }
+}
+
+//Method 2 first invert left or right subtree and then check for symmetry
+class Solution {
+    public TreeNode invert(TreeNode root){
+        if(root == null) return null;
+        TreeNode temp = root.left;
+        root.left = invert(root.right);
+        root.right = invert(temp);
+        return root;
+    }
+
+    
+    public boolean helper(TreeNode t1, TreeNode t2) {
+    if (t1 == null && t2 == null) return true;
+    if (t1 == null || t2 == null) return false;
+    if (t1.val != t2.val) return false;
+    // Return the result of both left and right subtree comparisons
+    return helper(t1.left, t2.left) && helper(t1.right, t2.right);
+    }
+
+
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null) return true;
+        if(root.left != null && root.right!=null ){
+            root.left = invert(root.left);
+        }
+        TreeNode t1 = root.left;
+        TreeNode t2 = root.right;
+        if(helper(t1,t2)) return true;
+        return false; 
+
+    }
+}
+
+
