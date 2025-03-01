@@ -1,0 +1,17 @@
+//Path Sum
+//Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+//A leaf is a node with no children.
+
+
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        // Base case: If the tree is empty, return false
+        if (root == null) return false;
+        // Check if we've reached a leaf node with the exact remaining sum
+        if (root.left == null && root.right == null && targetSum == root.val) {
+            return true;
+        }
+        // Recursively check left and right subtrees for the remaining sum
+        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+    }
+}
