@@ -1,0 +1,60 @@
+//Binary Tree Level Order Traversal II
+//Given the root of a binary tree, return the bottom-up level order traversal of its nodes' values. (i.e., from left to right, level by level from leaf to root).
+
+
+
+class Solution {
+    class Pair {
+        TreeNode node;
+        int level;
+
+        Pair(TreeNode node, int level) {
+            this.node = node;
+            this.level = level;
+        }
+    }
+
+    public int findlevel(TreeNode root) {
+        if (root == null) return 0;
+        return 1 + Math.max(findlevel(root.left), findlevel(root.right));
+    }
+
+    public void BFS(TreeNode root, List<List<Integer>> ans) {
+        Queue<Pair> q = new LinkedList<>();
+        if (root != null) q.add(new Pair(root, 0));
+        
+        while (!q.isEmpty()) {
+            Pair front = q.remove();
+            TreeNode temp = front.node;
+            int lvl = front.level;
+
+            ans.get(lvl).add(temp.val);
+
+            if (temp.left != null) q.add(new Pair(temp.left, lvl + 1));
+            if (temp.right != null) q.add(new Pair(temp.right, lvl + 1));
+        }
+    }
+
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        int lvl = findlevel(root);
+        List<List<Integer>> ans = new ArrayList<>();
+        
+        for (int i = 0; i < lvl; i++) {
+            ans.add(new ArrayList<>());  // Initialize each level
+        }
+        
+        BFS(root, ans);
+
+        // Reverse the list to get bottom-up order
+        int l = 0, r = ans.size() - 1;
+        while (l < r) {
+            List<Integer> temp = ans.get(l);
+            ans.set(l, ans.get(r));
+            ans.set(r, temp);
+            l++;
+            r--;
+        }
+        
+        return ans;
+    }
+}
