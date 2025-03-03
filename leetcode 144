@@ -4,7 +4,7 @@
 
 
 
-
+//Method 1: Recursive
 class Solution {
     public void preorder(TreeNode root, ArrayList ans){
         if(root== null) return;
@@ -16,5 +16,22 @@ class Solution {
         ArrayList<Integer> ans = new ArrayList<>();
         preorder(root,ans);
         return ans;
+    }
+}
+
+//Method 2 : Iterative
+
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> arr = new ArrayList<>();
+        Stack<TreeNode> st = new Stack<>();
+        if(root!=null) st.push(root);
+        while(!st.isEmpty()){
+            TreeNode temp = st.pop();
+            arr.add(temp.val);
+            if(temp.right!=null) st.push(temp.right);
+            if(temp.left!=null) st.push(temp.left);
+        }
+        return arr;
     }
 }
