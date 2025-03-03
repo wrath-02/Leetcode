@@ -1,0 +1,26 @@
+//Binary Tree Right Side View
+//Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+
+class Solution {
+    public int findlvl(TreeNode root){
+        if(root==null) return 0;
+        int lvl = 1 + Math.max(findlvl(root.left),findlvl(root.right));
+        return lvl;
+    }
+    public void DFS(TreeNode root,int level,List<Integer> ans){ //any  traversal
+        if(root==null) return;
+        ans.set(level,root.val); //Important
+        DFS(root.left,level+1,ans);
+        DFS(root.right,level+1,ans);
+    }
+    public List<Integer> rightSideView(TreeNode root) {
+        int n = findlvl(root);
+        List<Integer> ans = new ArrayList<>();
+        for(int i = 0;i<n;i++){
+            ans.add(0);
+        }
+        DFS(root,0,ans);
+        return ans;
+    }
+}
