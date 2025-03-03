@@ -15,3 +15,20 @@ class Solution {
         return ans;
     }
 }
+
+//Method 2 : Iterative
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> arr = new ArrayList<>();
+        Stack<TreeNode> st = new Stack<>();
+        if(root!=null) st.push(root);
+        while(!st.isEmpty()){
+            TreeNode temp = st.pop();
+            arr.add(temp.val);
+            if(temp.left!=null) st.push(temp.left);
+            if(temp.right!=null) st.push(temp.right);
+        }
+        Collections.reverse(arr);
+        return arr;
+    }
+}
