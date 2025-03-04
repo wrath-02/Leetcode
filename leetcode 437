@@ -1,0 +1,17 @@
+//Path Sum III
+//Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
+//The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+
+class Solution {
+    public int helper(TreeNode root, long sum){
+        if(root==null) return 0;
+        int count = 0;
+        if(root.val==sum) count++;
+        count += helper(root.left,sum-root.val) + helper(root.right,sum-root.val);
+        return count;
+    }
+    public int pathSum(TreeNode root, int sum) {
+        if(root==null) return 0;
+        return helper(root,sum) + pathSum(root.left,sum) + pathSum(root.right,sum);
+    }
+}
