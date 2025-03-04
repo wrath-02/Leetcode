@@ -5,7 +5,7 @@
 
 
 
-//Method 1  : 
+//Method 1  : O(n*n)
 class Solution {
     public int levelsabKniklenge(TreeNode root){
         if(root==null) return 0;
@@ -18,5 +18,23 @@ class Solution {
         int leftdia = diameterOfBinaryTree(root.left);
         int rightdia = diameterOfBinaryTree(root.right);
         return Math.max(myDia , Math.max(leftdia , rightdia));
+    }
+}
+
+//Method 2: O(N)
+
+class Solution {
+    public int levelsabKniklenge(TreeNode root ,int[] maxdia){
+        if(root==null) return 0;
+		int leftlevel = levelsabKniklenge(root.left,maxdia);
+        int rightlevel=  levelsabKniklenge(root.right,maxdia);
+        int dia = leftlevel + rightlevel;
+        maxdia[0] = Math.max(maxdia[0],dia);
+        return 1 + Math.max(leftlevel,rightlevel);
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+       int []maxdia = {0};
+       levelsabKniklenge(root,maxdia);
+       return maxdia[0];
     }
 }
