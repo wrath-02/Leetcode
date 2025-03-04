@@ -1,0 +1,35 @@
+//Balanced Binary Tree
+//Given a binary tree, determine if it is height-balanced.
+
+
+//Method 1 : O(n*n)
+class Solution {
+    public int level(TreeNode root){
+        if(root == null) return 0;
+        return 1+Math.max(level(root.left),level(root.right));
+    }
+    public boolean isBalanced(TreeNode root) {
+        if(root == null) return true;
+        int diff = Math.abs(level(root.left) - level(root.right));
+        if(diff >1) return false;
+
+        return isBalanced(root.left) && isBalanced(root.right);
+    }
+}
+
+//Method 2  : O(n)
+class Solution {
+    public int level(TreeNode root ,boolean []ans){
+        if(root == null) return 0;
+        int leftlevel = level(root.left,ans);
+        int rightlevel =  level(root.right,ans);
+        int diff = Math.abs(leftlevel - rightlevel);
+        if(diff>1) ans[0] = false;
+        return 1 + Math.max(leftlevel,rightlevel);
+    }
+    public boolean isBalanced(TreeNode root) {
+        boolean []ans = {true};
+        level(root,ans); 
+        return ans[0];
+    }
+}
