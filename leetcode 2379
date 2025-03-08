@@ -1,0 +1,54 @@
+//Minimum Recolors to Get K Consecutive Black Blocks
+//You are given a 0-indexed string blocks of length n, where blocks[i] is either 'W' or 'B', representing the color of the ith block. The characters 'W' and 'B' denote the colors white and black, respectively.
+//You are also given an integer k, which is the desired number of consecutive black blocks.
+//In one operation, you can recolor a white block such that it becomes a black block.
+//Return the minimum number of operations needed such that there is at least one occurrence of k consecutive black blocks.
+
+
+
+
+
+//Method 1 : Brute Force O(N*K)
+class Solution {
+    public int minimumRecolors(String blocks, int k) {
+        int n = blocks.length();
+        int minRecolors = Integer.MAX_VALUE;
+        for (int l = 0; l <= n - k; l++) {
+            int whiteCount = 0;
+            for (int i = l; i < l + k; i++) {
+                if (blocks.charAt(i) == 'W') {
+                    whiteCount++;
+                }
+            }
+            minRecolors = Math.min(minRecolors, whiteCount);
+        }
+        
+        return minRecolors;
+    }
+}
+
+//Method 2 : Sliding Window O(N)
+
+class Solution {
+    public int minimumRecolors(String blocks, int k) {
+        int recolor = 0;
+        int res = 0;
+        for(int i =0;i<k;i++){
+            if(blocks.charAt(i)=='W'){
+                recolor++;
+            }
+        }
+        res= recolor;
+        for(int i=k;i<blocks.length();i++){
+            if(blocks.charAt(i)=='W'){
+                recolor++;
+            }
+            if(blocks.charAt(i-k)=='W'){
+                recolor--;
+            }
+
+            res= Math.min(res,recolor);
+        }
+        return res;
+    }
+}
