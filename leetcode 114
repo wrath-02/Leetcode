@@ -1,0 +1,28 @@
+//Flatten Binary Tree to Linked List
+//Given the root of a binary tree, flatten the tree into a "linked list":
+//The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
+//The "linked list" should be in the same order as a pre-order traversal of the binary tree.
+
+
+
+
+
+class Solution {
+    public void flatten(TreeNode root) {
+        if(root==null) return;
+        Stack<TreeNode> st =new Stack<>();
+        TreeNode prev= null;
+        if(root!=null) st.push(root);
+        while(st.size()>0){
+            TreeNode curr =st.pop();
+            if(prev!=null){
+                prev.left=null;
+                prev.right = curr;
+            }
+            if(curr.right!=null) st.push(curr.right);
+            if(curr.left!=null) st.push(curr.left);
+            prev=curr;
+        }
+        return;
+    }
+}
