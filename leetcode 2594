@@ -1,0 +1,38 @@
+
+//Minimum Time to Repair Cars
+//You are given an integer array ranks representing the ranks of some mechanics. ranksi is the rank of the ith mechanic. A mechanic with a rank r can repair n cars in r * n2 minutes.
+//You are also given an integer cars representing the total number of cars waiting in the garage to be repaired.
+//Return the minimum time taken to repair all the cars.
+//Note: All the mechanics can repair the cars simultaneously.
+
+
+
+
+class Solution {
+    public long count_repaired(long time, int[] ranks) {
+        long count = 0;
+        for (int rank : ranks) {
+            count += (long) Math.sqrt((double) time / rank); // Explicit cast to double to avoid precision issues
+        }
+        return count;
+    }
+
+    public long repairCars(int[] ranks, int cars) {
+        long low = 1;
+        long high = (long) ranks[0] * cars * cars; 
+        long res = 0;
+
+        while (low <= high) {
+            long mid = low + (high - low) / 2;
+            long repaired = count_repaired(mid, ranks);
+
+            if (repaired >= cars) {
+                res = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return res;
+    }
+}
