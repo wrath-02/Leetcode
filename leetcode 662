@@ -7,7 +7,47 @@
 
 
 
+//Method 1:
+class Solution {
+    class Pair{
+        int idx;
+        TreeNode node;
+        Pair(int idx,TreeNode node){
+            this.idx = idx;
+            this.node = node;   
+        }
+    }
+    public int widthOfBinaryTree(TreeNode root) {
+        if(root==null) return 0;
+        int ans = 0;
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(0,root));
+        while(!q.isEmpty()){
+            int first = 0, last = 0;
+            int size = q.size();
+            int min = q.peek().idx;
+            for(int i =0;i<size;i++){
+                Pair temp =q.poll();
+                int curr_idx = temp.idx-min;
+                if(i==0) first =curr_idx;
+                if(i==size-1) last = curr_idx;
 
+                if(temp.node.left!=null) q.add(new Pair(2*curr_idx+1,temp.node.left));
+                if(temp.node.right!=null) q.add(new Pair(2*curr_idx+2,temp.node.right));
+            }
+            ans =Math.max(ans,last-first+1);
+        }
+        return ans;
+    }
+}
+
+
+
+
+
+
+
+//Method 2:
 class Solution {
     class Pair{
         int idx;
