@@ -1,0 +1,48 @@
+//Maximum Width of Binary Tree
+//Given the root of a binary tree, return the maximum width of the given tree.
+//The maximum width of a tree is the maximum width among all levels.
+//The width of one level is defined as the length between the end-nodes (the leftmost and rightmost non-null nodes), where the null nodes between the end-nodes that would be present in a complete binary tree extending down to that level are also counted into the length calculation.
+//It is guaranteed that the answer will in the range of a 32-bit signed integer.
+
+
+
+
+
+class Solution {
+    class Pair{
+        int idx;
+        int level;
+        TreeNode node;
+
+        Pair(int level,int idx,TreeNode node){
+            this.level = level;
+            this.idx = idx;
+            this.node = node;
+            
+        }
+    }
+    public int widthOfBinaryTree(TreeNode root) {
+        if(root==null) return 0;
+        int ans = 0;
+        Queue<Pair> q = new LinkedList<>();
+        if(root!=null) q.add(new Pair(0,1,root));
+        int prevlevel = 0, previdx = 1;
+        while(!q.isEmpty()){
+            Pair temp = q.poll();
+            int index = temp.idx;
+            int level = temp.level;
+            TreeNode node = temp.node;
+
+            if(level>prevlevel){
+                prevlevel = level;
+                previdx = index;
+            }
+            ans = Math.max(ans,index-previdx+1);
+            
+            if(node.left!=null) q.add(new Pair(level+1,2*index,node.left));
+            if(node.right!=null) q.add(new Pair(level+1,2*index+1,node.right));
+            
+        }
+        return ans;
+    }
+}
