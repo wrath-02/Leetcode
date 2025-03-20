@@ -1,0 +1,45 @@
+//Kth Smallest Element in a BST
+//Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+
+
+//Method 1: Recursive Approach
+class Solution {
+    public void helper(TreeNode root , int k,int []ans,int[] count){
+        if(root == null) return;
+        helper(root.left,k,ans,count);
+        count[0]++;
+        if(count[0]==k){
+            ans[0] = root.val;
+            return;
+        }
+        helper(root.right,k,ans,count);
+    }
+    public int kthSmallest(TreeNode root, int k) {
+        int []ans = {0};
+        int []count = {0};
+        helper(root,k,ans,count);
+        return ans[0];
+    }
+}
+
+//Method 2 : Iterative Approach
+
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode curr = root;
+        int count = 0;
+
+        while (curr != null || !stack.isEmpty()) {
+            while (curr != null) {  // Go left
+                stack.push(curr);
+                curr = curr.left;
+            }
+            curr = stack.pop();  // Process node
+            count++;
+            if (count == k) return curr.val;  // Found the kth smallest
+            curr = curr.right;  // Go right
+        }
+        return -1;  // Should never reach here
+    }
+}
