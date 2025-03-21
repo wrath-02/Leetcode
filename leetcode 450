@@ -1,0 +1,64 @@
+//Delete Node in a BST
+/*Given a root node reference of a BST and a key, delete the node with the given key in the BST. Return the root node reference (possibly updated) of the BST.
+Basically, the deletion can be divided into two stages:
+Search for a node to remove.
+If the node is found, delete the node.
+*/
+
+
+
+
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return null;
+
+        TreeNode temp = root;
+        TreeNode parent = null;
+
+        // Step 1: Find the node to delete
+        while (temp != null && temp.val != key) {
+            parent = temp;  // Track the parent
+            if (key < temp.val) temp = temp.left;
+            else temp = temp.right;
+        }
+
+        if (temp == null) return root; // Key not found
+
+        // Case 1: Leaf Node
+        if (temp.left == null && temp.right == null) {
+            if (parent == null) return null; // Deleting the root with no children
+            if (parent.left == temp) parent.left = null;
+            else parent.right = null;
+        }
+
+        // Case 2: Node has One Child
+        else if (temp.left == null || temp.right == null) {
+            TreeNode child = (temp.left == null) ? temp.right : temp.left;
+
+            if (parent == null) return child; // If root node is deleted, return the child as new root
+            if (parent.left == temp) parent.left = child;
+            else parent.right = child;
+        }
+
+        // Case 3: Node has Two Children
+        else {
+            TreeNode successorParent = temp;
+            TreeNode successor = temp.right;
+
+            // Find the inorder successor (leftmost node in right subtree)
+            while (successor.left != null) {
+                successorParent = successor;
+                successor = successor.left;
+            }
+
+            // Replace temp value with successor value
+            temp.val = successor.val;
+
+            // Delete the successor node (which has at most one child)
+            if (successorParent.left == successor) successorParent.left = successor.right;
+            else successorParent.right = successor.right;
+        }
+
+        return root;
+    }
+}
