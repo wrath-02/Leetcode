@@ -1,0 +1,42 @@
+//Binary Search Tree to Greater Sum Tree
+/*Given the root of a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus the sum of all keys greater than the original key in BST.
+As a reminder, a binary search tree is a tree that satisfies these constraints:
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+*/
+
+
+//Method 1 
+class Solution {
+    public  void reverse_inorder(TreeNode root,int[] sum){
+        if(root==null) return;
+        reverse_inorder(root.right,sum);
+        root.val+=sum[0];
+        sum[0] = root.val;
+        reverse_inorder(root.left,sum);
+    }
+    public TreeNode bstToGst(TreeNode root) {
+        int[] sum = {0};
+        reverse_inorder(root,sum);
+        return root;
+    }
+}
+
+//Method 2: Extra Space
+class Solution {
+    public void inorder(TreeNode root ,List<TreeNode> ans ){
+        if(root==null) return;
+        inorder(root.left,ans);
+        ans.add(root);
+        inorder(root.right,ans);
+    }
+    public TreeNode bstToGst(TreeNode root) {
+        List<TreeNode> ans = new ArrayList<>();
+        inorder(root,ans);
+        for(int i = ans.size()-2;i>=0;i--){
+            ans.get(i).val+=ans.get(i+1).val;
+        }
+        return root;
+    }
+}
