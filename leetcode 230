@@ -43,3 +43,38 @@ class Solution {
         return -1;  // Should never reach here
     }
 }
+
+
+//Method 3: Morris traversal
+
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        //Morris Traversal
+        int count =1;
+        TreeNode curr=root;
+        while(curr!=null){
+            if(curr.left!=null){
+                TreeNode predecessor = curr.left;
+                while(predecessor.right!=null && predecessor.right!=curr){
+                    predecessor=predecessor.right;
+                } 
+                if(predecessor.right==null){
+                    predecessor.right=curr;
+                    curr=curr.left;
+                }
+                else{
+                    if(count==k) return curr.val;
+                    count++;
+                    curr=curr.right;
+                    predecessor.right=null;
+                }
+            }
+            else{
+                if(count==k) return curr.val;
+                count++;
+                curr=curr.right;
+            }
+        }
+        return curr.val;
+    }
+}
