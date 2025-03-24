@@ -1,0 +1,42 @@
+//Insert Greatest Common Divisors in Linked List
+//Given the head of a linked list head, in which each node contains an integer value.
+//Between every pair of adjacent nodes, insert a new node with a value equal to the greatest common divisor of them.
+//Return the linked list after insertion.
+//The greatest common divisor of two numbers is the largest positive integer that evenly divides both numbers.
+
+
+
+
+class Solution {
+    public int GCD(int a,int b) {
+        int ans = 1;
+        int n = Math.min(a, b);  
+        for(int i=1;i<=n;i++) {
+            if (a%i == 0 && b%i == 0) {
+                ans =i;
+            }
+        }
+        return ans;
+    }
+
+    public ListNode insertGreatestCommonDivisors(ListNode head) {
+        int size= 0;
+        ListNode temp = head;
+        while(temp!=null){
+            temp=temp.next;
+            size++;
+        }
+        if(size==1) return head;
+        temp=head;
+        ListNode after = temp.next;
+        while(temp!=null && after!=null){
+            int val= GCD(temp.val,temp.next.val);
+            ListNode beechka = new ListNode(val);
+            temp.next = beechka;
+            beechka.next=after;
+            temp=after;
+            after=after.next;
+        }
+        return head;
+    }
+}
