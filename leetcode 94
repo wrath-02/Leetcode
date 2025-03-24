@@ -3,7 +3,7 @@
 
 
 
-
+//Method 1: Recursive
 class Solution {
     public void helper(TreeNode root, ArrayList ans){
         if(root== null) return;
@@ -36,6 +36,38 @@ class Solution {
                 TreeNode top = st.pop();
                 ans.add(top.val);
                 temp=top.right;
+            }
+        }
+        return ans;
+    }
+}
+
+
+//Method 3 : Morris traversal
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        
+        List<Integer> ans = new ArrayList<>();
+        TreeNode curr=root;
+        while(curr!=null){
+            if(curr.left!=null){
+                TreeNode predecessor = curr.left;
+                while(predecessor.right!=null && predecessor.right!=curr){
+                    predecessor=predecessor.right;
+                } 
+                if(predecessor.right==null){
+                    predecessor.right=curr;
+                    curr=curr.left;
+                }
+                else{
+                    ans.add(curr.val);
+                    curr=curr.right;
+                    predecessor.right=null;
+                }
+            }
+            else{
+                ans.add(curr.val);
+                curr=curr.right;
             }
         }
         return ans;
