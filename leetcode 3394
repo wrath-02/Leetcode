@@ -1,0 +1,48 @@
+//Check if Grid can be Cut into Sections
+/*You are given an integer n representing the dimensions of an n x n grid, with the origin at the bottom-left corner of the grid. You are also given a 2D array of coordinates rectangles, where rectangles[i] is in the form [startx, starty, endx, endy], representing a rectangle on the grid. Each rectangle is defined as follows:
+(startx, starty): The bottom-left corner of the rectangle.
+(endx, endy): The top-right corner of the rectangle.
+Note that the rectangles do not overlap. Your task is to determine if it is possible to make either two horizontal or two vertical cuts on the grid such that:
+Each of the three resulting sections formed by the cuts contains at least one rectangle.
+Every rectangle belongs to exactly one section.
+Return true if such cuts can be made; otherwise, return false.
+*/
+
+
+
+class Solution {
+    public int count_non_overlapping(int[][] intervals){
+        Arrays.sort(intervals,(a,b)-> Integer.compare(a[0],b[0]));
+        int count = 0;
+        int  prev_end= -1;
+        for(int[] a:intervals){
+            int start = a[0];
+            int end = a[1];
+            if(prev_end<=start){
+                count++;
+            }
+            prev_end = Math.max(prev_end,end);
+        }
+        return count;
+    }
+    public boolean checkValidCuts(int n, int[][] rectangles) {
+        int[][] horizontalinterval = new int[rectangles.length][2];// creating horizontal/y axis interval
+        for(int i =0;i<rectangles.length;i++){
+            int start = rectangles[i][1];
+            int end = rectangles[i][3];
+            horizontalinterval[i][0]=start;
+            horizontalinterval[i][1]=end;
+        }
+        int[][] verticalinterval = new int[rectangles.length][2];// creating vertical/x axis interval
+        for(int i =0;i<rectangles.length;i++){
+            int start = rectangles[i][0];
+            int end = rectangles[i][2];
+            verticalinterval[i][0]=start;
+            verticalinterval[i][1]=end;
+        }
+        int regioncount = Math.max(count_non_overlapping(horizontalinterval),count_non_overlapping(verticalinterval));
+        if(regioncount>=3) return true;
+
+        return false;
+    }
+}
