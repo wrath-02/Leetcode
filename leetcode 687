@@ -1,0 +1,29 @@
+//Longest Univalue Path
+//Given the root of a binary tree, return the length of the longest path, where each node in the path has the same value. This path may or may not pass through the root.
+//The length of the path between two nodes is represented by the number of edges between them.
+
+
+
+
+class Solution {
+    public int maxLength = 0;
+    public int longestUnivaluePath(TreeNode root) {
+        if(root==null) return 0;
+        findPath(root);
+        return maxLength;
+    }
+    public int findPath(TreeNode node){
+        if (node == null) return 0;
+        int leftPath = findPath(node.left);
+        int rightPath = findPath(node.right);
+        int leftcheck =0,rightcheck = 0;
+        if (node.left != null && node.left.val == node.val) {
+            leftcheck=leftPath+1;
+        }
+        if (node.right != null && node.right.val == node.val) {
+            rightcheck =rightPath+1;
+        }
+        maxLength=Math.max(maxLength,leftcheck+rightcheck );
+        return Math.max(leftcheck,rightcheck);
+    }
+}
