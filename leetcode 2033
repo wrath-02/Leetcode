@@ -1,0 +1,49 @@
+//Minimum Operations to Make a Uni-Value Grid
+/*
+You are given a 2D integer grid of size m x n and an integer x. In one operation, you can add x to or subtract x from any element in the grid.
+
+A uni-value grid is a grid where all the elements of it are equal.
+
+Return the minimum number of operations to make the grid uni-value. If it is not possible, return -1.
+*/
+
+
+
+
+class Solution {
+    public int minOperations(int[][] grid, int x) {
+    /* 1 Check All Remainders
+       2  Flatten the input and sort
+       3 Prefix Sum and Suffix Sum
+    */
+        int total =0;
+
+        for(int i=0;i<grid.length;i++){
+            for(int j =0;j<grid[0].length;j++){
+                if(grid[i][j]%x != grid[0][0]%x) return -1;
+            }
+        }
+        int [] flat = new int[grid.length*grid[0].length];
+        int k =0;
+        for(int i=0;i<grid.length;i++){
+            for(int j =0;j<grid[0].length;j++){
+                flat[k] = grid[i][j];
+                total+=flat[k];
+                k++;
+            }
+        }    
+        Arrays.sort(flat);
+
+        int prefix =0;
+        int res = Integer.MAX_VALUE;
+
+        for(int i = 0;i<flat.length;i++){
+            int cost_left = (flat[i] * i) - prefix;
+            int cost_right = total -prefix -(flat[i]*(flat.length -i));
+            int operations = (cost_left+cost_right)/x;
+            res= Math.min(res,operations);
+            prefix += flat[i];
+        }
+        return res;
+    }
+}
