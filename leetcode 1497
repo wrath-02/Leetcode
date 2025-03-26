@@ -1,0 +1,42 @@
+//Check If Array Pairs Are Divisible by k
+//Given an array of integers arr of even length n and an integer k.
+//We want to divide the array into exactly n / 2 pairs such that the sum of each pair is divisible by k.
+//Return true If you can find a way to do that or false otherwise.
+
+
+
+
+class Solution {
+    public boolean canArrange(int[] arr, int k) {
+        int count = 0;
+        HashMap<Integer,Integer> remfreqmap = new HashMap<>();
+        for(int i =0;i<arr.length;i++){
+            int mod =(arr[i]%k+k)%k;
+            if(remfreqmap.containsKey(mod)){
+                remfreqmap.put(mod,remfreqmap.get(mod)+1);
+            }
+            else{
+                remfreqmap.put(mod,1);
+            }
+        }
+        if(remfreqmap.containsKey(0)){
+            if(remfreqmap.get(0)%2!=0) return false;
+            remfreqmap.remove(0);
+        }
+
+        if(k%2==0 && remfreqmap.containsKey(k/2)){
+            if(remfreqmap.get(k/2)%2!=0) return false;
+            remfreqmap.remove(k/2);
+        }
+        for(int key : remfreqmap.keySet()){
+            int rem = k -key;
+            if(!remfreqmap.containsKey(rem))return false;
+            int keyfreq = remfreqmap.get(key);
+            int remfreq = remfreqmap.get(rem);
+            if(remfreq!=keyfreq) return false;    
+        }
+        return true;
+
+
+    }
+}
