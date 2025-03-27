@@ -10,7 +10,7 @@
 
 
 
-
+//Method 1 : without extra sapce 
 class Solution {
     public Node deepCopy(Node head){
         Node newHead = new Node(head.val);
@@ -75,5 +75,48 @@ class Solution {
         return newHead;
         
         
+    }
+}
+
+
+
+
+//Method 2: With HashMap
+
+class Solution {
+    public Node deepCopy(Node head){
+        if(head==null) return null;
+        Node newHead = new Node(head.val);
+        Node t1 = head;
+        Node t2 = newHead;
+        while(t1!=null){
+            t1=t1.next;
+            if(t1!=null){
+                Node temp = new Node(t1.val);
+                t2.next=temp;
+            }
+            t2= t2.next;
+        }
+        return newHead;
+    } 
+    public Node copyRandomList(Node head) {   
+        if(head==null) return null;     
+        Map<Node,Node> track = new HashMap<>();
+        Node newHead  = deepCopy(head);
+        Node temp1 = head;
+        Node temp2 = newHead;
+        while(temp1!=null){
+            track.put(temp1,temp2);
+            temp1=temp1.next;
+            temp2=temp2.next;
+        }
+
+        for(Node original :track.keySet()){
+            Node duplicate = track.get(original);
+            if(original.random!=null){
+                duplicate.random = track.get(original.random);
+            }
+        }    
+        return newHead;
     }
 }
