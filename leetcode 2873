@@ -1,0 +1,23 @@
+//Maximum Value of an Ordered Triplet I
+//You are given a 0-indexed integer array nums.
+//Return the maximum value over all triplets of indices (i, j, k) such that i < j < k. If all such triplets have a negative value, return 0.
+//The value of a triplet of indices (i, j, k) is equal to (nums[i] - nums[j]) * nums[k].
+
+
+
+//Method 1 : 0(n^3)
+class Solution {
+    public long maximumTripletValue(int[] nums) {
+        long ans  = 0;
+        int n = nums.length;
+        for(int i=0;i<n-2;i++){
+            for(int j=i+1;j<n-1;j++){
+                for(int k=j+1;k<n;k++){
+                    long temp = (long)(nums[i]-nums[j])*nums[k];
+                    ans = Math.max(ans,temp);
+                }
+            }
+        }
+        return ans;
+    }
+}
