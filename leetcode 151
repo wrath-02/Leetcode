@@ -5,6 +5,7 @@
 //Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.
 
 
+//Method 1:
 class Solution {
     public String reverseWords(String s) {
         // Trim leading and trailing spaces, and split by one or more spaces
@@ -21,5 +22,39 @@ class Solution {
         }
         
         return sb.toString();
+    }
+}
+
+
+//Method 2:
+class Solution {
+    public String reverseWords(String s) {
+        s=s.trim();
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<s.length();i++) {
+            // Skip multiple spaces
+            if (i==0||s.charAt(i) != ' '|| s.charAt(i-1)!= ' ') {
+                sb.append(s.charAt(i));
+            }
+        }
+        char[] arr = sb.toString().toCharArray();;
+        reverse(arr,0,arr.length-1);
+        int start = 0;
+        for(int i=0; i<=arr.length;i++) {
+            if (i==arr.length || arr[i]==' ') {
+                reverse(arr,start,i - 1);
+                start = i+1;
+            }
+        }
+        return new String(arr);
+    }
+    public void reverse(char[] arr , int start , int end){
+        while(start<end) {
+            char temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+        }
     }
 }
