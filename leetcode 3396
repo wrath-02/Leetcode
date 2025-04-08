@@ -1,0 +1,35 @@
+//Minimum Number of Operations to Make Elements in Array Distinct
+//You are given an integer array nums. You need to ensure that the elements in the array are distinct. To achieve this, you can perform the following operation any number of times:
+//Remove 3 elements from the beginning of the array. If the array has fewer than 3 elements, remove all remaining elements.
+//Note that an empty array is considered to have distinct elements. Return the minimum number of operations needed to make the elements in the array distinct.
+
+
+
+
+
+class Solution {
+    public boolean noDuplicate(List<Integer> arr){
+        Set<Integer> set = new HashSet<>();
+        for(int i=0;i<arr.size();i++){
+            if(set.contains(arr.get(i))) return false;
+            set.add(arr.get(i));
+        }
+        return true;
+    }
+    public int minimumOperations(int[] nums) {
+        List<Integer> arr =new ArrayList<>();
+        for(int i=0;i<nums.length;i++){
+            arr.add(nums[i]);
+        }
+        int ans = 0;
+        while(!noDuplicate(arr)){
+            int removeCount = Math.min(3, arr.size());
+            for(int i =0; i<removeCount; i++) {
+                arr.remove(0);
+            }
+            ans++;
+    
+        }
+        return ans;
+    }
+}
