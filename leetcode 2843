@@ -1,0 +1,44 @@
+//Count Symmetric Integers
+//You are given two positive integers low and high.
+//An integer x consisting of 2 * n digits is symmetric if the sum of the first n digits of x is equal to the sum of the last n digits of x. Numbers with an odd number of digits are never symmetric.
+//Return the number of symmetric integers in the range [low, high].
+
+
+
+
+
+
+
+
+class Solution {
+    public int helper(String sb){
+        int num = Integer.parseInt(sb);
+        int sum =0;
+        while(num>0){
+            int temp = num%10;
+            sum+= temp;
+            num/=10;
+        }
+        return sum;
+    }
+    public int countSymmetricIntegers(int low, int high) {
+        int ans = 0;
+        while(low<=high){
+            String s = Integer.toString(low);
+            int n = s.length();
+            if(n%2!=0){
+                low++;
+                continue;
+            }
+            else{
+                String sb1 = s.substring(0,n/2);
+                String sb2 = s.substring(n/2,n);
+                int sum1 = helper(sb1);
+                int sum2 = helper(sb2);
+                if(sum1==sum2) ans++;
+            }
+            low++;
+        }
+        return ans;
+    }
+}
