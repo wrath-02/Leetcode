@@ -1,0 +1,73 @@
+/*Find the Count of Good Integers
+You are given two positive integers n and k.
+
+An integer x is called k-palindromic if:
+
+x is a palindrome.
+x is divisible by k.
+An integer is called good if its digits can be rearranged to form a k-palindromic integer. For example, for k = 2, 2020 can be rearranged to form the k-palindromic integer 2002, whereas 1010 cannot be rearranged to form a k-palindromic integer.
+
+Return the count of good integers containing n digits.
+
+Note that any integer must not have leading zeros, neither before nor after rearrangement. For example, 1010 cannot be rearranged to form 101.
+*/
+
+
+
+
+
+
+
+class Solution {
+    public  String sorting(String s) {
+        char[] chars = s.toCharArray();
+        Arrays.sort(chars);
+        return new String(chars);
+    }
+    public long countGoodIntegers(int n, int k) {
+        Set<String> set = new HashSet<>();
+        long res =0;
+        int d = (n+1)/2;
+        int start = (int)Math.pow(10,d-1);
+        int end = (int)Math.pow(10,d)-1; 
+        for(int i =start;i<=end;i++){
+            String lefthalf = Integer.toString(i);
+            String full ="";
+            if(n%2==0){
+                String righthalf = new StringBuilder(lefthalf).reverse().toString();
+                full = lefthalf+righthalf;
+            } else{
+                String righthalf = new StringBuilder(lefthalf.substring(0,d-1)).reverse().toString();
+                full = lefthalf+righthalf;
+            }
+
+            long number = Long.parseLong(full);
+            if(number%k!=0) continue;
+            full = sorting(full);
+            set.add(full);
+        }
+
+        long[] fact = new long[11]; //precomputing factorial;
+        fact[0]=1;
+        for(int i =1;i<11;i++){
+            fact[i] =fact[i-1]*i;
+        }
+
+        for(String s : set){
+            int[] freq = new int[10];
+            for(char ch : s.toCharArray()){
+                freq[ch-'0']++;
+            }
+            int totalDigits = s.length();
+            int zeroDigits = freq[0];
+            int nonZeroDigits = totalDigits -zeroDigits;
+
+            long perm = (nonZeroDigits* fact[totalDigits-1]);
+            for(int i =0;i<10;i++){
+                perm /= fact[freq[i]];
+            }
+            res+=perm;
+        }
+        return res;
+    }
+}
