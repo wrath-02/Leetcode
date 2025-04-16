@@ -1,0 +1,35 @@
+//Given an integer array nums, return the maximum possible sum of elements of the array such that it is divisible by three.
+//Greatest Sum Divisible by Three
+ 
+
+class Solution {
+    public int maxSumDivThree(int[] nums) {
+        int sum = 0;
+        int n =nums.length;
+        ArrayList<Integer> mod1 = new ArrayList<>();
+        ArrayList<Integer> mod2 = new ArrayList<>();
+        for(int i =0;i<n;i++){
+            sum+=nums[i];
+            if(nums[i]%3==1) mod1.add(nums[i]);
+            if(nums[i]%3==2) mod2.add(nums[i]);
+        }
+        
+        if(sum%3 == 0) return sum;
+
+        Collections.sort(mod1);
+        Collections.sort(mod2);
+
+        int result = 0;
+        if(sum%3==1){
+            int temp1 = (mod1.size() > 0) ? sum-mod1.get(0) : 0;
+            int temp2 = (mod2.size() > 1) ? sum-mod2.get(0)-mod2.get(1) : 0;
+            result = Math.max(temp1, temp2);
+        }
+        else{
+            int temp1 = (mod2.size() > 0) ? sum-mod2.get(0) : 0;
+            int temp2 = (mod1.size() > 1) ? sum-(mod1.get(0)+mod1.get(1)) : 0;
+            result = Math.max(temp1, temp2);
+        }
+        return result;
+    }
+}
