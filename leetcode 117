@@ -1,0 +1,35 @@
+/*Populating Next Right Pointers in Each Node II
+Given a binary tree
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+Initially, all next pointers are set to NULL.
+*/
+
+
+
+
+class Solution {
+    public Node connect(Node root) {
+        Queue<Node> q = new LinkedList<>();
+        if(root==null) return null;
+        q.add(root);
+        while(!q.isEmpty()){
+            int size = q.size();
+            Node prev = null;
+            for(int i = 0; i<size; i++) {
+                Node curr = q.poll();
+                if(prev != null) prev.next = curr;
+                prev = curr;
+                if (curr.left != null) q.add(curr.left);
+                if (curr.right != null) q.add(curr.right);
+            }
+            prev.next = null;
+        }
+        return root;   
+    }
+}
