@@ -3,7 +3,41 @@
 //Merge all the linked-lists into one sorted linked-list and return it.
 
 
+//Method 1
+class Solution {
+    public class CompareNode implements Comparator<ListNode> {
+        public int compare(ListNode a, ListNode b) {
+            return a.val - b.val;
+        }
+    }
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(new CompareNode());
+        for(ListNode l : lists){
+            while(l != null){
+                pq.add(l);
+                l = l.next;
+            }
+        }
+        if(pq.isEmpty()) return null;
 
+        ListNode curr = pq.remove();
+        ListNode dummy = new ListNode(-1);
+        dummy.next = curr;
+        while(!pq.isEmpty()){
+            curr.next = pq.remove();
+            curr = curr.next;
+        }
+
+        curr.next = null;
+        return dummy.next;
+    }
+}
+
+
+
+
+
+//Method 2
 class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(-1);
