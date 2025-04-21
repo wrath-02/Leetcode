@@ -1,0 +1,50 @@
+//Sort Array by Increasing Frequency
+//Given an array of integers nums, sort the array in increasing order based on the frequency of the values. If multiple values have the same frequency, sort them in decreasing order.
+//Return the sorted array.
+
+
+
+
+class Solution {
+    class Pair implements Comparable<Pair> {
+        int ele, freq;
+        Pair(int ele, int freq) {
+            this.ele = ele;
+            this.freq = freq;
+        }
+        public int compareTo(Pair p) {
+            // Sort by increasing frequency, and decreasing element if freq same
+            if(this.freq == p.freq) {
+                return p.ele - this.ele;
+            }
+            return this.freq - p.freq;
+        }
+    }
+
+    public int[] frequencySort(int[] nums) {
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        for (int num : nums) {
+            mp.put(num, mp.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        for (int key : mp.keySet()) {
+            pq.add(new Pair(key, mp.get(key)));
+        }
+
+        List<Integer> result = new ArrayList<>();
+        while (!pq.isEmpty()) {
+            Pair p = pq.poll();
+            for (int i = 0; i < p.freq; i++) {
+                result.add(p.ele);
+            }
+        }
+
+        // Convert to array
+        int[] ans = new int[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            ans[i] = result.get(i);
+        }
+        return ans;
+    }
+}
