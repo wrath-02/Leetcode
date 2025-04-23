@@ -1,0 +1,38 @@
+//Count Nodes Equal to Average of Subtree
+//Given the root of a binary tree, return the number of nodes where the value of the node is equal to the average of the values in its subtree.
+//Note:
+//The average of n elements is the sum of the n elements divided by n and rounded down to the nearest integer.
+//A subtree of root is a tree consisting of root and all of its descendants.
+
+
+
+
+
+class Solution {
+    public int ans = 0;
+
+    public void DFS(TreeNode root, int[] countNodes, int[] sum) {
+        if (root == null) return;
+
+        countNodes[0] += 1;
+        sum[0] += root.val;
+
+        DFS(root.left, countNodes, sum);
+        DFS(root.right, countNodes, sum);
+    }
+
+    public int averageOfSubtree(TreeNode root) {
+        if (root == null) return ans;
+
+        int[] countNodes = {0}; 
+        int[] sum = {0};
+        DFS(root, countNodes, sum);
+
+        if (root.val == sum[0] / countNodes[0]) ans++;
+
+        averageOfSubtree(root.left);
+        averageOfSubtree(root.right);
+
+        return ans;
+    }
+}
