@@ -1,0 +1,37 @@
+//Count Complete Subarrays in an Array
+//You are given an array nums consisting of positive integers.
+//We call a subarray of an array complete if the following condition is satisfied:
+//The number of distinct elements in the subarray is equal to the number of distinct elements in the whole array.
+//Return the number of complete subarrays.
+//A subarray is a contiguous non-empty part of an array.
+
+
+
+
+
+class Solution {
+    public int countCompleteSubarrays(int[] nums) {
+        int n = nums.length;
+        int result = 0;
+        Set<Integer> distinctSet = new HashSet<>();
+        for (int num : nums) distinctSet.add(num);
+        int totalDistinct = distinctSet.size();
+
+        Map<Integer,Integer> freqMap = new HashMap<>();
+        int left = 0;
+
+        for (int i = 0; i < n; i++) {
+            freqMap.put(nums[i], freqMap.getOrDefault(nums[i],0) + 1);
+            while (freqMap.size() == totalDistinct) {
+                result += n-i;
+                freqMap.put(nums[left], freqMap.get(nums[left]) - 1);
+                if (freqMap.get(nums[left]) == 0) {
+                    freqMap.remove(nums[left]);
+                }
+                left++;
+            }
+        }
+
+        return result;
+    }
+}
