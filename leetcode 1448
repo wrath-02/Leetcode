@@ -1,0 +1,25 @@
+//Count Good Nodes in Binary Tree
+//Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+//Return the number of good nodes in the binary tree.
+
+
+
+
+
+class Solution {
+    public void dfs(TreeNode root , int[] ans , int currMax){
+        if(root == null) return;
+        
+        if(root.val >= currMax) ans[0] += 1;
+        currMax = Math.max(root.val , currMax);
+        
+        dfs(root.left,ans,currMax);
+        dfs(root.right,ans,currMax);
+    }
+    public int goodNodes(TreeNode root) {
+        int[] ans = {0};
+        int currMax = root.val;
+        dfs(root,ans,currMax);
+        return ans[0];
+    }
+}
