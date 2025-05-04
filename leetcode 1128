@@ -1,0 +1,23 @@
+//Number of Equivalent Domino Pairs
+//Given a list of dominoes, dominoes[i] = [a, b] is equivalent to dominoes[j] = [c, d] if and only if either (a == c and b == d), or (a == d and b == c) - that is, one domino can be rotated to be equal to another domino.
+//Return the number of pairs (i, j) for which 0 <= i < j < dominoes.length, and dominoes[i] is equivalent to dominoes[j].
+
+
+class Solution {
+    public int numEquivDominoPairs(int[][] dominoes) {
+        Map<Integer,Integer> mp = new HashMap<>();
+        int count = 0;
+
+        for(int[] d : dominoes){
+            int a = d[0];
+            int b = d[1];
+            int key = a < b ? a * 10 + b : b * 10 + a;
+            if(mp.containsKey(key)){
+                count += mp.get(key);
+                mp.put(key,mp.get(key)+1);
+            }
+            else mp.put(key,1);
+        }
+        return count;
+    }
+}
