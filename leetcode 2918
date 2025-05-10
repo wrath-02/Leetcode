@@ -1,0 +1,39 @@
+//Minimum Equal Sum of Two Arrays After Replacing Zeros
+//You are given two arrays nums1 and nums2 consisting of positive integers.
+//You have to replace all the 0's in both arrays with strictly positive integers such that the sum of elements of both arrays becomes equal.
+//Return the minimum equal sum you can obtain, or -1 if it is impossible.
+
+
+
+
+
+
+
+
+
+
+class Solution {
+    public long minSum(int[] nums1, int[] nums2) {
+        long sum1 = 0, sum2 = 0;
+        int zero1 = 0, zero2 = 0;
+        
+        for (int x : nums1) {
+            if (x == 0) zero1++;
+            sum1 += x;
+        }
+        for (int x : nums2) {
+            if (x == 0) zero2++;
+            sum2 += x;
+        }
+
+        long min1 = sum1 + zero1;
+        long min2 = sum2 + zero2;
+
+        // if either side has no zeros and the other can't match it, return -1
+        if (zero1 == 0 && min1 < min2) return -1;
+        if (zero2 == 0 && min2 < min1) return -1;
+
+        // return the maximum of the two minimum possible sums
+        return Math.max(min1, min2);
+    }
+}
