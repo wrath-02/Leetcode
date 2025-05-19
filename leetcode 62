@@ -7,6 +7,7 @@
 
 
 //Method 1 : Memoization
+
 class Solution {
     public int uniquePaths(int m, int n) {
         int[][] dp = new int[m][n];
@@ -43,5 +44,31 @@ class Solution {
             }
         }
         return dp[m-1][n-1];
+    }
+}
+
+//Method 3 : Tabulation(Space optimization)
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[2][n];
+        //Intializing with 1
+        for(int j =0; j< n;j++){
+            dp[0][j] = 1;
+            dp[1][j] = 1; 
+        }
+
+        for(int i = 1 ;i <= m-1 ;i++){
+            //dp work
+            for(int j = 1; j<n;j++){
+                dp[1][j] = dp[1][j-1] + dp[0][j];
+            }
+            //copy 1st row to 0th row
+            for(int j = 0;j<n;j++){
+                dp[0][j] = dp[1][j];
+            }
+        }
+
+        return dp[1][n-1];
     }
 }
