@@ -1,0 +1,36 @@
+//Partition Equal Subset Sum
+//Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.
+
+
+
+
+class Solution {
+    public boolean helper(int i , int[] nums, int tar, int[][] dp){
+        if(i==nums.length){
+            if(tar==0) return true;
+            else return false;
+        }
+        if(dp[i][tar]!=-1) return dp[i][tar]==1;
+        boolean ans = false;
+        boolean skip = helper(i+1,nums,tar,dp);
+        if(tar<nums[i]) ans = skip;
+        else{
+            boolean pick = helper(i+1,nums,tar-nums[i],dp);
+            ans = skip||pick;
+        }
+        dp[i][tar] = (ans) ? 1 : 0;
+        return ans;
+    }
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for(int i=0; i<nums.length ;i++) sum += nums[i];
+
+        if(sum%2!=0) return false;
+        int tar = sum/2;
+        int[][] dp = new int[nums.length][tar+1];
+        for(int i = 0; i<nums.length ;i++){
+            Arrays.fill(dp[i],-1);
+        }
+        return helper(0,nums,tar,dp);
+    }
+}
