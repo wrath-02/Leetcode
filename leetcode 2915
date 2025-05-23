@@ -1,0 +1,32 @@
+//Length of the Longest Subsequence That Sums to Target
+//You are given a 0-indexed array of integers nums, and an integer target.
+//Return the length of the longest subsequence of nums that sums up to target. If no such subsequence exists, return -1.
+//A subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.
+
+
+
+
+
+
+class Solution {
+    public int helper(int i,List<Integer> nums, int target,int[][] dp){
+        if(i==nums.size()){
+            if(target==0) return 0;
+            else return Integer.MIN_VALUE;
+        }
+        if(dp[i][target]!=-1) return dp[i][target];
+        int skip = helper(i+1,nums,target,dp);
+        if(target-nums.get(i) < 0) return dp[i][target] = skip;
+        int pick = 1 + helper(i+1,nums,target-nums.get(i),dp);
+        return dp[i][target] = Math.max(skip,pick);
+    }
+    public int lengthOfLongestSubsequence(List<Integer> nums, int target) {
+        int[][] dp = new int[nums.size()][target+1];
+        for(int i =0;i<nums.size();i++){
+            Arrays.fill(dp[i],-1);
+        }
+        int ans = (int)helper(0,nums,target,dp);
+        if(ans < 0) return -1;
+        return ans;
+    }
+}
