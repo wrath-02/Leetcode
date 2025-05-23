@@ -1,0 +1,43 @@
+/*Visit Array Positions to Maximize Score
+You are given a 0-indexed integer array nums and a positive integer x.
+
+You are initially at position 0 in the array and you can visit other positions according to the following rules:
+
+If you are currently in position i, then you can move to any position j such that i < j.
+For each position i that you visit, you get a score of nums[i].
+If you move from a position i to a position j and the parities of nums[i] and nums[j] differ, then you lose a score of x.
+Return the maximum total score you can get.
+
+Note that initially you have nums[0] points.
+*/
+
+
+
+
+
+
+
+class Solution {
+    public long helper(int i , int[] nums, int x, int parity,long[][] dp){
+        if(i==nums.length) return 0;
+        
+        if(dp[i][parity]!=-1) return dp[i][parity];
+        long pick = 0;
+        if(nums[i]%2 == parity){
+            pick = nums[i] + helper(i+1,nums,x,nums[i] % 2,dp);
+        }
+        else {
+            pick = nums[i] - x + helper(i+1,nums,x,nums[i] % 2,dp);
+        }
+
+        long skip = helper(i+1,nums,x,parity,dp);
+        return dp[i][parity] = Math.max(pick,skip);
+    }
+    public long maxScore(int[] nums, int x) {
+        long[][] dp = new long[nums.length][2];
+        for(int i =0;i<nums.length;i++){
+            Arrays.fill(dp[i],-1);
+        }
+        return nums[0] + helper(1,nums,x,nums[0]%2,dp);
+    }
+}
