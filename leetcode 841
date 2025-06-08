@@ -5,7 +5,7 @@
 
 
 
-
+//Method 1 : BFS
 class Solution {
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
         int n = rooms.size();
@@ -33,6 +33,35 @@ class Solution {
                     vis[ele] = true;
                     q.add(ele);
                 }
+            }
+        }
+    }
+}
+
+
+
+//Method 2 : DFS
+
+class Solution {
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        int n = rooms.size();
+        boolean[] vis = new boolean[n];
+
+        vis[0] = true;
+        DFS(0,rooms ,vis);
+
+        for(int i = 0 ;i < n;i++){
+            if(vis[i]==false) return false;
+        }
+        return true;
+    }
+
+    public void DFS(int start,List<List<Integer>> adj ,boolean[] vis){
+        int n = adj.size();
+        vis[start] = true;
+        for(int ele : adj.get(start)){
+            if(vis[ele]==false){
+                DFS(ele,adj,vis);
             }
         }
     }
