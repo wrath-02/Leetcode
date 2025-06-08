@@ -4,22 +4,23 @@
 
 class Solution {
     public int strStr(String haystack, String needle) {
-        int i = 0, j = 0;
+        int n = haystack.length();
+        int m = needle.length();
 
-        if (needle.length() > haystack.length()) return -1;
-
-        while (i < haystack.length()) {
-            if (haystack.charAt(i) == needle.charAt(j)) {
-                j++;
-                if (j == needle.length()) {
-                    return i - j + 1; // Match found, return start index
-                }
-            } else {
-                i -= j; // Reset i to the next start position
-                j = 0;  // Reset j to start searching needle from the beginning
+        if(m > n) return -1;
+        
+        int i = 0 , j=0;
+        while(i < n){
+            if(haystack.charAt(i) != needle.charAt(j)){
+                i = i -j +1;
+                j=0;
             }
-            i++;
+            else{
+                i++;
+                j++;
+                if(j==m) return i - j;
+            }
         }
-        return -1; // No match found
+        return -1;   
     }
 }
