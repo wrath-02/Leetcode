@@ -11,7 +11,7 @@ Return the total number of provinces.
 
 
 
-
+//Method 1 : BFS
 class Solution {
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
@@ -41,6 +41,35 @@ class Solution {
                     vis[j] = true;
                     q.add(j);
                 }
+            }
+        }
+    }
+}
+
+
+
+//Method 2 : DFS
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        int count = 0;
+
+        boolean[] vis = new boolean[n];
+        for(int i = 0; i < n; i++){
+            if(!vis[i]){
+                DFS(i,vis,isConnected);
+                count++;
+            }
+        }
+        return count;
+
+    }
+    public void DFS(int i ,boolean[] vis, int[][] adj){
+        int n = adj.length;
+        vis[i] = true;
+        for(int j = 0; j< n;j++){
+            if(adj[i][j]==1 && vis[j]==false){
+                DFS(j,vis,adj);
             }
         }
     }
