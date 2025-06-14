@@ -1,0 +1,54 @@
+/*Maximum Difference by Remapping a Digit
+You are given an integer num. You know that Bob will sneakily remap one of the 10 possible digits (0 to 9) to another digit.
+Return the difference between the maximum and minimum values Bob can make by remapping exactly one digit in num.
+Notes:
+When Bob remaps a digit d1 to another digit d2, Bob replaces all occurrences of d1 in num with d2.
+Bob can remap a digit to itself, in which case num does not change.
+Bob can remap different digits for obtaining minimum and maximum values respectively.
+The resulting number after remapping can contain leading zeroes.
+*/
+
+
+
+
+
+
+
+class Solution {
+    public int minMaxDifference(int num) {
+        String s = Integer.toString(num);
+        int n = s.length();
+        char maxMap = '9'; char minMap = '0'; 
+
+        for(int i = 0 ; i < n; i++){
+            if(s.charAt(i) != '9'){
+                maxMap = s.charAt(i);
+                break;
+            }
+        }
+        for(int i = 0 ; i < n; i++){
+            if(s.charAt(i) != '0'){
+                minMap = s.charAt(i);
+                break;
+            }
+        }
+
+        StringBuilder maxNum = new StringBuilder();
+        for(int i = 0; i < n ;i++){
+            if(s.charAt(i)==maxMap){
+                maxNum.append("9");
+            }
+            else maxNum.append(s.charAt(i));
+        }
+
+        StringBuilder minNum = new StringBuilder();
+        for(int i = 0; i < n ;i++){
+            if(s.charAt(i)==minMap){
+                minNum.append("0");
+            }
+            else minNum.append(s.charAt(i));
+        }
+
+        return Integer.parseInt(maxNum.toString()) -  Integer.parseInt(minNum.toString());
+    }
+}
