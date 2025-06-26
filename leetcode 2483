@@ -1,0 +1,95 @@
+/*Minimum Penalty for a Shop
+You are given the customer visit log of a shop represented by a 0-indexed string customers consisting only of characters 'N' and 'Y':
+if the ith character is 'Y', it means that customers come at the ith hour
+whereas 'N' indicates that no customers come at the ith hour.
+If the shop closes at the jth hour (0 <= j <= n), the penalty is calculated as follows:
+For every hour when the shop is open and no customers come, the penalty increases by 1.
+For every hour when the shop is closed and customers come, the penalty increases by 1.
+Return the earliest hour at which the shop must be closed to incur a minimum penalty.
+Note that if a shop closes at the jth hour, it means the shop is closed at the hour j.
+*/
+
+
+
+//Method 1 : 
+class Solution {
+    public int bestClosingTime(String customers) {
+        int n = customers.length();
+        int[] pre = new int[n+1];  
+        pre[0] = 0;
+
+        for(int i = 0 ; i< n ;i++){
+            if(customers.charAt(i) == 'N'){
+                pre[i+1] = pre[i] +1;
+            }
+            else{
+                pre[i+1] = pre[i];
+            }
+        } 
+
+        int[] suff = new int[n+1];  
+        suff[n] = 0;
+
+        for(int i = n-1; i >= 0 ;i--){
+            if(customers.charAt(i) == 'Y'){
+                suff[i] = suff[i+1] +1;
+            }
+            else{
+                suff[i] = suff[i+1];
+            }
+        } 
+
+        int[] ans = new int[n+1];
+
+        for(int i = 0; i<=n ;i++){
+            ans[i] = pre[i] +suff[i];
+        }
+
+        int min =Integer.MAX_VALUE;
+        int idx = 0;
+        for(int i = 0 ; i<= n;i++){
+            if(min > ans[i]){
+                min = ans[i];
+                idx = i;
+            }
+        }
+
+        return idx;
+    }
+}
+
+//Method 2 : More Optimized
+
+class Solution {
+    public int bestClosingTime(String customers) {
+        int n = customers.length();
+        int penalty = 0;
+
+        for(int i = 0; i < n; i++) {
+            if(customers.charAt(i) == 'Y') {
+                penalty++;
+            }
+        }
+
+        int minPenalty = penalty;
+        int bestHour = 0;
+
+        for(int i = 0; i < n; i++) {
+            if(customers.charAt(i) == 'Y'){
+                penalty--;  
+            }
+            else{
+                penalty++;  
+            }
+
+            if(penalty < minPenalty){
+                minPenalty = penalty;
+                bestHour = i + 1;
+            }
+        }
+
+        return bestHour;
+    }
+}
+
+
