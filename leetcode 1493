@@ -1,0 +1,30 @@
+//Longest Subarray of 1's After Deleting One Element
+//Given a binary array nums, you should delete one element from it.
+//Return the size of the longest non-empty subarray containing only 1's in the resulting array. Return 0 if there is no such subarray.
+
+
+
+class Solution {
+    public int longestSubarray(int[] nums) {
+        int n = nums.length;
+        int l = 0 , r = 0;
+        int zeros = 0;
+        int maxLength = 0;
+
+        while(r < n){
+            if(nums[r] == 0) {
+                zeros++;
+            }
+            while(zeros > 1){
+                if(nums[l] == 0){
+                    zeros--;
+                }
+                l++;
+            }   
+            maxLength = Math.max(maxLength , r-l+1);
+            r++;
+        }
+
+        return maxLength - 1;
+    }
+}
