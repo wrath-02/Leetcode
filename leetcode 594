@@ -1,0 +1,32 @@
+//Longest Harmonious Subsequence
+//We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.
+//Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
+
+
+
+class Solution {
+    public int findLHS(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+
+        int min = nums[0];
+        int max = nums[0];
+
+        int maxLen = 0;
+        int r = 0 ,l = 0;
+
+        while(r < n){
+            min = nums[l];
+            max = nums[r];
+            while(l < n && nums[r] - nums[l] > 1){
+                l++;
+            }
+            if(max - min == 1){
+                maxLen = Math.max(maxLen , r-l+1);
+            }   
+            r++;
+        }
+
+        return maxLen;
+    }
+}
