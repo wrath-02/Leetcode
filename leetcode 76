@@ -1,0 +1,53 @@
+//Minimum Window Substring
+//Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+//The testcases will be generated such that the answer is unique.
+
+
+
+
+
+
+
+
+class Solution {
+    public String minWindow(String s, String t) {
+        if(s.length() < t.length()) return "";
+
+        Map<Character, Integer> map = new HashMap<>();
+        for(char c : t.toCharArray()){
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        int required = t.length();  
+        int l = 0, r = 0, start = 0;
+        int minLen = Integer.MAX_VALUE;
+
+        while(r < s.length()){
+            char c = s.charAt(r);
+            if (map.containsKey(c)){
+                if (map.get(c) > 0){
+                    required--;
+                }
+                map.put(c, map.get(c) - 1);
+            }
+            while(required == 0) {
+                if(r - l + 1 < minLen){
+                    minLen = r - l + 1;
+                    start = l;
+                }
+
+                char left = s.charAt(l);
+                if(map.containsKey(left)) {
+                    map.put(left, map.get(left) + 1);
+                    if(map.get(left) > 0){
+                        required++; 
+                    }
+                }
+
+                l++;
+            }
+            r++;
+        }
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start + minLen);
+    }
+}
