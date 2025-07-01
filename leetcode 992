@@ -1,0 +1,35 @@
+//Minimum Window Substring
+//Given an integer array nums and an integer k, return the number of good subarrays of nums.
+//A good array is an array where the number of different integers in that array is exactly k.
+//For example, [1,2,3,1,2] has 3 different integers: 1, 2, and 3.
+//A subarray is a contiguous part of an array.
+
+
+
+
+class Solution {
+    public int subarraysWithKDistinct(int[] nums, int k) {
+        return countAtMost(nums,k) - countAtMost(nums,k-1);
+    }
+    public int countAtMost(int[] nums ,int k){
+        Map<Integer ,Integer> mp = new HashMap<>();
+        int n = nums.length;
+        
+        int l = 0 ,r = 0, count = 0;
+        
+        while(r < n){
+            mp.put(nums[r],mp.getOrDefault(nums[r],0)+1);
+            
+            while(mp.size() > k){
+                mp.put(nums[l] ,mp.get(nums[l])-1);
+                if(mp.get(nums[l]) == 0){
+                    mp.remove(nums[l]);
+                }
+                l++;
+            }
+            count += r - l + 1;
+            r++;
+        }
+        return count;
+    }
+}
