@@ -1,0 +1,34 @@
+//Maximum Area of Longest Diagonal Rectangle
+//You are given a 2D 0-indexed integer array dimensions.
+//For all indices i, 0 <= i < dimensions.length, dimensions[i][0] represents the length and dimensions[i][1] represents the width of the rectangle i.
+//Return the area of the rectangle having the longest diagonal. If there are multiple rectangles with the longest diagonal, return the area of the rectangle having the maximum area.
+
+
+
+
+class Solution {
+    public int areaOfMaxDiagonal(int[][] dimensions) {
+        int n = dimensions.length;
+        double maxArea = 0;
+        double maxDiag = 0; 
+        for(int i = 0; i < n ;i++){
+            double currDiag = 0;
+            double currArea = 0;
+            int a = dimensions[i][0];
+            int b = dimensions[i][1];
+
+            currDiag = Math.sqrt(a*a + b*b);
+            currArea = a*b;
+
+            if(currDiag > maxDiag){
+                maxDiag = Math.max(maxDiag, currDiag);
+                maxArea = currArea;
+            }
+            else if(currDiag == maxDiag){
+                maxArea = Math.max(maxArea ,currArea);
+            }
+        }
+
+        return (int)maxArea;
+    }
+}
