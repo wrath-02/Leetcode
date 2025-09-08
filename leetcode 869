@@ -1,0 +1,27 @@
+//Reordered Power of 2
+//You are given an integer n. We reorder the digits in any order (including the original order) such that the leading digit is not zero.
+//Return true if and only if we can do this so that the resulting number is a power of two.
+
+
+
+
+
+
+
+class Solution {
+    public boolean reorderedPowerOf2(int n) {
+        Set<String> set = new HashSet<>();
+        for(int i = 0; i < 31; i++){ 
+            int temp = 1 << i;
+            char[] chars = Integer.toString(temp).toCharArray();
+            Arrays.sort(chars);
+            set.add(new String(chars));
+        }
+        
+        char[] nChars = Integer.toString(n).toCharArray();
+        Arrays.sort(nChars);
+        String nSign = new String(nChars);
+        
+        return set.contains(nSign);
+    }
+}
